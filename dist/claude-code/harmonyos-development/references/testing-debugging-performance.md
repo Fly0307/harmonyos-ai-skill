@@ -17,6 +17,16 @@
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `arkxtest, JsUnit, UiTest, DevEco Testing, HiLog, AppFreeze, cold start, memory optimization, performance analysis`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ## Testing — arkxtest framework
 
 Package: `@ohos/hypium` (Mocha-style). Three sub-frameworks: **JsUnit** (unit), **UiTest** (UI automation), **PerfTest** (performance).

@@ -17,9 +17,9 @@
 [![AI Tools](https://img.shields.io/badge/AI_Tools-11+-purple)](#支持的-ai-工具)
 [![AGENTS.md](https://img.shields.io/badge/AGENTS.md-Standard-green)](https://agents.md)
 
-[![Stars](https://img.shields.io/github/stars/DengShiyingA/harmonyos-ai-skill?style=social)](https://github.com/DengShiyingA/harmonyos-ai-skill/stargazers)
-[![Last Commit](https://img.shields.io/github/last-commit/DengShiyingA/harmonyos-ai-skill)](https://github.com/DengShiyingA/harmonyos-ai-skill/commits)
-[![Issues](https://img.shields.io/github/issues/DengShiyingA/harmonyos-ai-skill)](https://github.com/DengShiyingA/harmonyos-ai-skill/issues)
+[![Stars](https://img.shields.io/github/stars/Fly0307/harmonyos-ai-skill?style=social)](https://github.com/Fly0307/harmonyos-ai-skill/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/Fly0307/harmonyos-ai-skill/zx-dev)](https://github.com/Fly0307/harmonyos-ai-skill/commits/zx-dev)
+[![Issues](https://img.shields.io/github/issues/Fly0307/harmonyos-ai-skill)](https://github.com/Fly0307/harmonyos-ai-skill/issues)
 
 <br/>
 
@@ -53,7 +53,7 @@
 ### 🍎 macOS
 
 ```bash
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
 # 重启 Claude Code，然后问："What skills are available?"
@@ -62,7 +62,7 @@ ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-
 ### 🐧 Linux
 
 ```bash
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
 # 重启 Claude Code，然后问："What skills are available?"
@@ -74,7 +74,7 @@ ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-
 
 ```powershell
 # 先开启「开发人员模式」：设置 → 隐私和安全性 → 开发者选项 → 打开（一次性）
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmonyos-development -Target $HOME\src\harmonyos-ai-skill\harmonyos-development
 # 重启 Claude Code，然后问："What skills are available?"
@@ -181,10 +181,12 @@ Skill 是一段领域知识（Markdown 格式），AI 编程工具会在对话�
 
 ## 安装
 
+当前上游目标为 [`Fly0307/harmonyos-ai-skill` 的 `zx-dev` 分支](https://github.com/Fly0307/harmonyos-ai-skill/tree/zx-dev)。
+
 下方所有 `curl` 命令都使用环境变量 `$RAW` —— **每个新终端首次使用前都需要先运行一次**：
 
 ```bash
-export RAW=https://raw.githubusercontent.com/DengShiyingA/harmonyos-ai-skill/main
+export RAW=https://raw.githubusercontent.com/Fly0307/harmonyos-ai-skill/zx-dev
 ```
 
 > **Windows PowerShell 用户：** 用 `$env:RAW = "..."`，并把下方 `curl -o foo` 改为 `Invoke-WebRequest -Uri "..." -OutFile foo`。
@@ -196,12 +198,12 @@ export RAW=https://raw.githubusercontent.com/DengShiyingA/harmonyos-ai-skill/mai
 
 ```bash
 # 方式 A — 直接复制（最简单，获得静态快照）
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 cp -r ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/
 
 # 方式 B — 符号链接（推荐：上游 git pull 后自动同步）
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
 
@@ -365,19 +367,19 @@ print(response.content[0].text)
 **前置：每个新 PowerShell 窗口先运行一次**
 
 ```powershell
-$env:RAW = "https://raw.githubusercontent.com/DengShiyingA/harmonyos-ai-skill/main"
+$env:RAW = "https://raw.githubusercontent.com/Fly0307/harmonyos-ai-skill/zx-dev"
 ```
 
 ### Claude Code CLI（Windows）
 
 ```powershell
 # 方式 A — 直接复制（最简单）
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmonyos-development $HOME\.claude\skills\
 
 # 方式 B — 符号链接（推荐：需要管理员权限或开启「开发者模式」）
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmonyos-development -Target $HOME\src\harmonyos-ai-skill\harmonyos-development
 
@@ -610,7 +612,7 @@ description: >
 不太可能 —— `SKILL.md` 约 4200 行（~150 KB），主流 AI 工具（Claude/GPT-4/Gemini 等）都能接受。如果确实遇到限制（如部分本地小模型），手动裁剪 `dist/plain/harmonyos-knowledge.md`。
 
 **`curl` 返回 404？**
-URL 中的分支可能已变更。检查 `https://github.com/DengShiyingA/harmonyos-ai-skill/branches` 并更新 `$RAW`。
+URL 中的分支可能已变更。检查 `https://github.com/Fly0307/harmonyos-ai-skill/branches` 并更新 `$RAW`。
 
 **上游仓库更新后怎么同步？**
 见上方*更新到最新版本*章节。

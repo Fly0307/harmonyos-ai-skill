@@ -25,6 +25,19 @@ Default working assumptions:
 - For project-specific work, inspect the repository first: `build-profile.json5`, `hvigorfile.ts`, `oh-package.json5`, `module.json5`, `entry/src/main/ets`, and relevant `.ets` files.
 - For compiler errors, search the exact error text in `references/api-errors-gotchas.md` before proposing a fix.
 
+## Official Source Lookup
+
+Prefer official Huawei documentation when network or Context7 lookup is available.
+
+| Source | Use |
+|---|---|
+| Huawei Developer Docs | `https://developer.huawei.com/consumer/cn/doc/` |
+| HarmonyOS guides path | `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/` |
+| HarmonyOS API references path | `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/` |
+| Context7 Library IDs | `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references` |
+
+When using Context7, query the most specific Huawei library ID with the exact API, Kit, component, error text, and SDK/API version. When using web search, constrain searches to `developer.huawei.com/consumer/cn/doc`.
+
 ## How to Load Context
 
 1. Classify the user request by topic.
@@ -104,6 +117,16 @@ The following sections inline the reference files for single-file distribution t
 - 3. Route based on shortcut parameter
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
+
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `UIAbility, AbilityStage, Want, startAbility, permissions, requestPermissionsFromUser, background tasks, app linking, continuation, shortcuts`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
 
 ## The Stage model — core concepts
 
@@ -576,6 +599,16 @@ Page reads `@StorageProp('targetPage')` and navigates accordingly.
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `ArkTS compiler error, strict checker error, SDK 6.0.1, API 21 migration, deprecated API, BusinessError`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ## ArkTS strict-mode compiler errors (SDK 6.0.1)
 
 
@@ -784,6 +817,16 @@ Module-level (non-component) functions must receive `ctx` as a parameter instead
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `ArkTS strict mode, ArkTS coding rules, TaskPool, Worker, @Concurrent, @Sendable, ArkCompiler`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ## ArkTS language — strictness rules
 
 ArkTS = TypeScript MINUS dynamic patterns, PLUS stricter static typing for AOT perf.
@@ -985,6 +1028,16 @@ workerPort.onmessage = (e) => {
 - onReachEnd — load more data
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
+
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `ArkUI component, layout, animation, Navigation UI, Tabs, Swiper, Grid, List, dialog, keyboard, dark mode, gesture, immersive window`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
 
 ## ArkUI — declarative UI
 
@@ -2068,6 +2121,16 @@ List() { LazyForEach(this.dataSource, ...) }
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `relationalStore, preferences, fileIo, ResourceManager, rawfile, picker, application sandbox, HAR resources, HSP resources`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ### File/document picker
 
 ```ts
@@ -2307,6 +2370,16 @@ const str = hspContext.resourceManager.getStringByNameSync('string_in_hsp');
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `Atomic Service, Meta Service, Form Kit, service card, FormExtensionAbility, distributed capability`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ## Atomic Services / Meta-Services (原子化服务 / 元服务)
 
 Installation-free, small (≤10MB) apps launched from:
@@ -2437,6 +2510,16 @@ struct CardPage {
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `HarmonyOS Kit import, @kit package, SDK category, kit catalog, API reference import path`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ## HarmonyOS Kits (common imports)
 
 ```ts
@@ -2561,6 +2644,16 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 - Map Kit — MapComponent
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
+
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `Location Kit, geoLocationManager, Weather Service Kit, Map Kit, MapComponent`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
 
 ## Location Kit (geoLocationManager)
 
@@ -2702,6 +2795,16 @@ Required permissions in `module.json5`: `ohos.permission.LOCATION` and `ohos.per
 - Release resources
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
+
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `Camera Kit, CameraPicker, Audio Kit, AVPlayer, AVSession, Image Kit, PixelMap, Scan Kit, Core Vision Kit, CoreSpeechKit`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
 
 ### Photo/video picker (correct API — `picker.PhotoViewPicker` is deprecated)
 
@@ -3347,6 +3450,16 @@ imageSource.release();
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `HarmonyOS Navigation, NavPathStack, Router, EventHub, @State, @Prop, @Link, @Observed, @Trace, StateStore`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ### Router — basic page navigation
 
 ```ts
@@ -3604,6 +3717,16 @@ Display modes: **Stack** (single column), **Split** (two columns), **Auto** (ada
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `HTTP request, WebSocket, Network Kit, connectivity, ArkWeb, Web component, javaScriptProxy, cookies, request.agent upload download`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ### HTTP request example
 
 ```ts
@@ -3817,6 +3940,16 @@ await task.start();
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `HAP packaging, HSP, HAR, AppGallery Connect, publishing, ArkGuard, obfuscation-rules.txt, keep symbol`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ## Packaging types
 
 | Type | Purpose |
@@ -3933,6 +4066,16 @@ Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 de
 - HarmonyOS 7 / API 26 Beta1 preview (2026/06/12)
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
+
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `HarmonyOS SDK release notes, API version, DevEco Studio release, HarmonyOS NEXT, API 23, API 24, API 26`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
 
 ## Platform snapshot
 
@@ -4086,6 +4229,16 @@ Load this file only when the user request matches these topics. For newer SDK cl
 - Popular ohpm libraries
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
+
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `DevEco Studio project setup, Stage model project layout, hvigor, ohpm, build-profile.json5, module.json5, HAP, HSP, HAR`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
 
 ## Project layout (Stage model)
 
@@ -4395,6 +4548,16 @@ dayjs().diff(dayjs('2024-01-01'), 'day');     // days difference
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `Notification Kit, Push Kit, Account Kit, Huawei ID login, Payment Kit, Share Kit`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ## Notification Kit (notificationManager)
 
 ```ts
@@ -4664,6 +4827,16 @@ Supported UTD types: `HYPERLINK`, `PLAIN_TEXT`, `HTML`, `IMAGE` (pass `uri` from
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `HarmonyOS samples, GitCode sample project, official sample code, Huawei developer sample catalog`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
+
 ## Key references
 
 - Official docs: https://developer.huawei.com/consumer/cn/doc/
@@ -4861,6 +5034,16 @@ Load this file only when the user request matches these topics. For newer SDK cl
 - General memory rules
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
+
+## Official Source Lookup
+
+- Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
+- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
+- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
+- Suggested query keywords: `arkxtest, JsUnit, UiTest, DevEco Testing, HiLog, AppFreeze, cold start, memory optimization, performance analysis`
+
+Use the local notes below as a snapshot. For latest/current SDK behavior, exact API signatures, permission policy, or deprecation status, verify against Huawei official docs or Context7 before answering.
 
 ## Testing — arkxtest framework
 

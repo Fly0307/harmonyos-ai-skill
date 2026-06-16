@@ -17,9 +17,9 @@
 [![AI Tools](https://img.shields.io/badge/AI_Tools-11+-purple)](#supported-ai-tools)
 [![AGENTS.md](https://img.shields.io/badge/AGENTS.md-Standard-green)](https://agents.md)
 
-[![Stars](https://img.shields.io/github/stars/DengShiyingA/harmonyos-ai-skill?style=social)](https://github.com/DengShiyingA/harmonyos-ai-skill/stargazers)
-[![Last Commit](https://img.shields.io/github/last-commit/DengShiyingA/harmonyos-ai-skill)](https://github.com/DengShiyingA/harmonyos-ai-skill/commits)
-[![Issues](https://img.shields.io/github/issues/DengShiyingA/harmonyos-ai-skill)](https://github.com/DengShiyingA/harmonyos-ai-skill/issues)
+[![Stars](https://img.shields.io/github/stars/Fly0307/harmonyos-ai-skill?style=social)](https://github.com/Fly0307/harmonyos-ai-skill/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/Fly0307/harmonyos-ai-skill/zx-dev)](https://github.com/Fly0307/harmonyos-ai-skill/commits/zx-dev)
+[![Issues](https://img.shields.io/github/issues/Fly0307/harmonyos-ai-skill)](https://github.com/Fly0307/harmonyos-ai-skill/issues)
 
 <br/>
 
@@ -53,7 +53,7 @@ Pick the command set for your OS — **copy-paste straight into your terminal**:
 ### 🍎 macOS
 
 ```bash
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
 # Restart Claude Code, then ask: "What skills are available?"
@@ -62,7 +62,7 @@ ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-
 ### 🐧 Linux
 
 ```bash
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
 # Restart Claude Code, then ask: "What skills are available?"
@@ -74,7 +74,7 @@ ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-
 
 ```powershell
 # First enable "Developer Mode" (one-time): Settings → Privacy & security → For developers → toggle on
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmonyos-development -Target $HOME\src\harmonyos-ai-skill\harmonyos-development
 # Restart Claude Code, then ask: "What skills are available?"
@@ -181,10 +181,12 @@ The two files differ only slightly: `plain/` is the raw Markdown; `system-prompt
 
 ## Installation
 
+The current upstream target is the [`zx-dev` branch of `Fly0307/harmonyos-ai-skill`](https://github.com/Fly0307/harmonyos-ai-skill/tree/zx-dev).
+
 All `curl` commands below use a shell variable `$RAW` — **run this once in every new terminal before the commands**:
 
 ```bash
-export RAW=https://raw.githubusercontent.com/DengShiyingA/harmonyos-ai-skill/main
+export RAW=https://raw.githubusercontent.com/Fly0307/harmonyos-ai-skill/zx-dev
 ```
 
 > **Windows PowerShell users:** use `$env:RAW = "..."` and replace `curl -o foo` with `Invoke-WebRequest -Uri "..." -OutFile foo`.
@@ -196,12 +198,12 @@ Pick **one** of the three options below:
 
 ```bash
 # Option A — quick copy (simplest, static snapshot)
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 cp -r ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/
 
 # Option B — symlink (recommended: auto-updates after upstream `git pull`)
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
 
@@ -366,19 +368,19 @@ print(response.content[0].text)
 **Prereq: run this once in every new PowerShell window**
 
 ```powershell
-$env:RAW = "https://raw.githubusercontent.com/DengShiyingA/harmonyos-ai-skill/main"
+$env:RAW = "https://raw.githubusercontent.com/Fly0307/harmonyos-ai-skill/zx-dev"
 ```
 
 ### Claude Code CLI (Windows)
 
 ```powershell
 # Option A — quick copy (simplest)
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmonyos-development $HOME\.claude\skills\
 
 # Option B — symlink (recommended: needs admin or "Developer Mode" enabled)
-git clone https://github.com/DengShiyingA/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
+git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmonyos-development -Target $HOME\src\harmonyos-ai-skill\harmonyos-development
 
@@ -611,7 +613,7 @@ After editing the source file, run `./scripts/build-dist.sh` to regenerate every
 Unlikely — `SKILL.md` is ~4200 lines (~150 KB). All major AI tools (Claude/GPT-4/Gemini etc.) accept it. If you hit a limit (e.g. some local small models), trim sections from `dist/plain/harmonyos-knowledge.md` manually.
 
 **`curl` fails with 404.**
-The branch in the URL may have moved. Check `https://github.com/DengShiyingA/harmonyos-ai-skill/branches` and update `$RAW` accordingly.
+The branch in the URL may have moved. Check `https://github.com/Fly0307/harmonyos-ai-skill/branches` and update `$RAW` accordingly.
 
 **How do I update after the upstream repo changes?**
 See the *Updating to the latest version* section above.

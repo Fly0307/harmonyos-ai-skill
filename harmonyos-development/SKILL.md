@@ -14,6 +14,19 @@ Default working assumptions:
 - For project-specific work, inspect the repository first: `build-profile.json5`, `hvigorfile.ts`, `oh-package.json5`, `module.json5`, `entry/src/main/ets`, and relevant `.ets` files.
 - For compiler errors, search the exact error text in `references/api-errors-gotchas.md` before proposing a fix.
 
+## Official Source Lookup
+
+Prefer official Huawei documentation when network or Context7 lookup is available.
+
+| Source | Use |
+|---|---|
+| Huawei Developer Docs | `https://developer.huawei.com/consumer/cn/doc/` |
+| HarmonyOS guides path | `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/` |
+| HarmonyOS API references path | `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/` |
+| Context7 Library IDs | `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references` |
+
+When using Context7, query the most specific Huawei library ID with the exact API, Kit, component, error text, and SDK/API version. When using web search, constrain searches to `developer.huawei.com/consumer/cn/doc`.
+
 ## How to Load Context
 
 1. Classify the user request by topic.
