@@ -20,8 +20,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `Notification Kit, Push Kit, Account Kit, Huawei ID login, Payment Kit, Share Kit`
 

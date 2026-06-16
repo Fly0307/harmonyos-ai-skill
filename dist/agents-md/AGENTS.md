@@ -16,8 +16,8 @@ Prefer official Huawei documentation when network or Context7 lookup is availabl
 | Source | Use |
 |---|---|
 | Huawei Developer Docs | `https://developer.huawei.com/consumer/cn/doc/` |
-| HarmonyOS guides path | `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/` |
-| HarmonyOS API references path | `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/` |
+| HarmonyOS guide pages | Use page-specific Huawei docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone browser URL. For web search: `site:developer.huawei.com/consumer/cn/doc/harmonyos-guides <topic>`. |
+| HarmonyOS API reference pages | Use page-specific Huawei docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone browser URL. For web search: `site:developer.huawei.com/consumer/cn/doc/harmonyos-references <API or Kit>`. |
 | Context7 Library IDs | `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references` |
 
 When using Context7, query the most specific Huawei library ID with the exact API, Kit, component, error text, and SDK/API version. When using web search, constrain searches to `developer.huawei.com/consumer/cn/doc`.

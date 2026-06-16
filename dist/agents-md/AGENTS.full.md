@@ -16,8 +16,8 @@ Prefer official Huawei documentation when network or Context7 lookup is availabl
 | Source | Use |
 |---|---|
 | Huawei Developer Docs | `https://developer.huawei.com/consumer/cn/doc/` |
-| HarmonyOS guides path | `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/` |
-| HarmonyOS API references path | `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/` |
+| HarmonyOS guide pages | Use page-specific Huawei docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone browser URL. For web search: `site:developer.huawei.com/consumer/cn/doc/harmonyos-guides <topic>`. |
+| HarmonyOS API reference pages | Use page-specific Huawei docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone browser URL. For web search: `site:developer.huawei.com/consumer/cn/doc/harmonyos-references <API or Kit>`. |
 | Context7 Library IDs | `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references` |
 
 When using Context7, query the most specific Huawei library ID with the exact API, Kit, component, error text, and SDK/API version. When using web search, constrain searches to `developer.huawei.com/consumer/cn/doc`.
@@ -105,8 +105,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `UIAbility, AbilityStage, Want, startAbility, permissions, requestPermissionsFromUser, background tasks, app linking, continuation, shortcuts`
 
@@ -586,8 +586,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `ArkTS compiler error, strict checker error, SDK 6.0.1, API 21 migration, deprecated API, BusinessError`
 
@@ -804,8 +804,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `ArkTS strict mode, ArkTS coding rules, TaskPool, Worker, @Concurrent, @Sendable, ArkCompiler`
 
@@ -1016,8 +1016,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `ArkUI component, layout, animation, Navigation UI, Tabs, Swiper, Grid, List, dialog, keyboard, dark mode, gesture, immersive window`
 
@@ -2108,8 +2108,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `relationalStore, preferences, fileIo, ResourceManager, rawfile, picker, application sandbox, HAR resources, HSP resources`
 
@@ -2357,8 +2357,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `Atomic Service, Meta Service, Form Kit, service card, FormExtensionAbility, distributed capability`
 
@@ -2497,8 +2497,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `HarmonyOS Kit import, @kit package, SDK category, kit catalog, API reference import path`
 
@@ -2632,8 +2632,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `Location Kit, geoLocationManager, Weather Service Kit, Map Kit, MapComponent`
 
@@ -2783,8 +2783,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `Camera Kit, CameraPicker, Audio Kit, AVPlayer, AVSession, Image Kit, PixelMap, Scan Kit, Core Vision Kit, CoreSpeechKit`
 
@@ -3437,8 +3437,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `HarmonyOS Navigation, NavPathStack, Router, EventHub, @State, @Prop, @Link, @Observed, @Trace, StateStore`
 
@@ -3704,8 +3704,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `HTTP request, WebSocket, Network Kit, connectivity, ArkWeb, Web component, javaScriptProxy, cookies, request.agent upload download`
 
@@ -3927,8 +3927,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `HAP packaging, HSP, HAR, AppGallery Connect, publishing, ArkGuard, obfuscation-rules.txt, keep symbol`
 
@@ -4054,8 +4054,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `HarmonyOS SDK release notes, API version, DevEco Studio release, HarmonyOS NEXT, API 23, API 24, API 26`
 
@@ -4217,8 +4217,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `DevEco Studio project setup, Stage model project layout, hvigor, ohpm, build-profile.json5, module.json5, HAP, HSP, HAR`
 
@@ -4535,8 +4535,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `Notification Kit, Push Kit, Account Kit, Huawei ID login, Payment Kit, Share Kit`
 
@@ -4814,8 +4814,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `HarmonyOS samples, GitCode sample project, official sample code, Huawei developer sample catalog`
 
@@ -5022,8 +5022,8 @@ Load this file only when the user request matches these topics. For newer SDK cl
 ## Official Source Lookup
 
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
-- HarmonyOS guides: `https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/`
-- HarmonyOS API references: `https://developer.huawei.com/consumer/cn/doc/harmonyos-references/`
+- HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
+- HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `arkxtest, JsUnit, UiTest, DevEco Testing, HiLog, AppFreeze, cold start, memory optimization, performance analysis`
 
