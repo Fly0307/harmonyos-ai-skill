@@ -18,7 +18,7 @@ Default working assumptions:
 
 1. Classify the user request by topic.
 2. Read the matching file(s) from `references/`.
-3. If the topic is unclear, search references with `rg -n "keyword|API|symbol" harmonyos-development/references` and then read the smallest relevant file.
+3. If the topic is unclear, search references with `rg -n "keyword|API|symbol" references` and then read the smallest relevant file.
 4. Do not read every reference file up front. Add more files only when the first file points to a cross-domain dependency.
 
 ## Reference Routing

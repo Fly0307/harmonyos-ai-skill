@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Build distribution files for multiple AI tools from the single source SKILL.md.
+# Build distribution files for multiple AI tools from the Codex skill.
 # Run from repo root:  ./scripts/build-dist.sh
 set -euo pipefail
 
 SRC="harmonyos-development/SKILL.md"
+REF_SRC="harmonyos-development/references"
 DIST="dist"
 
 if [[ ! -f "$SRC" ]]; then
@@ -11,11 +12,38 @@ if [[ ! -f "$SRC" ]]; then
   exit 1
 fi
 
-# Extract body = everything after the second "---" line (skip YAML frontmatter)
-BODY=$(awk '
+# Extract routing body = everything after the second "---" line (skip YAML frontmatter).
+ROUTER_BODY=$(awk '
   /^---$/ { n++; if (n == 2) { in_body = 1; next } else next }
   in_body { print }
-' "$SRC")
+' "$SRC" | sed '1{/^$/d;}')
+
+build_full_body() {
+  printf '%s\n' "$ROUTER_BODY"
+
+  if [[ -d "$REF_SRC" ]]; then
+    echo
+    echo "# Embedded HarmonyOS References"
+    echo
+    echo "The following sections inline the reference files for single-file distribution targets."
+
+    for ref in "$REF_SRC"/*.md; do
+      echo
+      echo "<!-- Source: references/$(basename "$ref") -->"
+      cat "$ref"
+    done
+  fi
+}
+
+copy_references() {
+  local target_dir="$1"
+  if [[ -d "$REF_SRC" ]]; then
+    mkdir -p "$target_dir/references"
+    cp "$REF_SRC"/*.md "$target_dir/references/"
+  fi
+}
+
+FULL_BODY=$(build_full_body)
 
 # Clean + recreate dist
 rm -rf "$DIST"
@@ -33,9 +61,10 @@ mkdir -p \
 
 # 1. Claude Code native (original format, for reference / direct copy)
 cp "$SRC" "$DIST/claude-code/harmonyos-development/SKILL.md"
+copy_references "$DIST/claude-code/harmonyos-development"
 
 # 2. Plain Markdown - for ChatGPT / Gemini / DeepSeek / Qwen / Ollama custom instructions
-printf '%s\n' "$BODY" > "$DIST/plain/harmonyos-knowledge.md"
+printf '%s\n' "$FULL_BODY" > "$DIST/plain/harmonyos-knowledge.md"
 
 # 3. Cursor modern MDC rule (place in .cursor/rules/harmonyos.mdc)
 {
@@ -57,35 +86,39 @@ globs:
 alwaysApply: false
 ---
 HDR
-  printf '%s\n' "$BODY"
+  printf '%s\n' "$FULL_BODY"
 } > "$DIST/cursor/harmonyos.mdc"
 
 # 4. Cursor legacy single-file rules (.cursorrules at repo root)
-printf '%s\n' "$BODY" > "$DIST/cursor/.cursorrules"
+printf '%s\n' "$FULL_BODY" > "$DIST/cursor/.cursorrules"
 
 # 5. GitHub Copilot (place at .github/copilot-instructions.md)
-printf '%s\n' "$BODY" > "$DIST/copilot/copilot-instructions.md"
+printf '%s\n' "$FULL_BODY" > "$DIST/copilot/copilot-instructions.md"
 
 # 6. Continue.dev rule (place in .continue/rules/)
-printf '%s\n' "$BODY" > "$DIST/continue/harmonyos.md"
+printf '%s\n' "$FULL_BODY" > "$DIST/continue/harmonyos.md"
 
 # 7. Windsurf rules (.windsurfrules at repo root)
-printf '%s\n' "$BODY" > "$DIST/windsurf/.windsurfrules"
+printf '%s\n' "$FULL_BODY" > "$DIST/windsurf/.windsurfrules"
 
 # 8. Cline / Roo Code custom instructions
-printf '%s\n' "$BODY" > "$DIST/cline/custom-instructions.md"
+printf '%s\n' "$FULL_BODY" > "$DIST/cline/custom-instructions.md"
 
 # 9. AGENTS.md standard — used by OpenAI Codex CLI, sst/opencode, Amp, Aider, Cursor (read), etc.
-printf '%s\n' "$BODY" > "$DIST/agents-md/AGENTS.md"
+# Default to a light routing file because AGENTS.md is loaded into every session.
+# Ship references beside it for on-demand loading, and include a full single-file fallback.
+printf '%s\n' "$ROUTER_BODY" > "$DIST/agents-md/AGENTS.md"
+copy_references "$DIST/agents-md"
+printf '%s\n' "$FULL_BODY" > "$DIST/agents-md/AGENTS.full.md"
 
 # 10. Google Gemini CLI (reads GEMINI.md at repo root or ~/.gemini/GEMINI.md globally)
-printf '%s\n' "$BODY" > "$DIST/gemini-cli/GEMINI.md"
+printf '%s\n' "$FULL_BODY" > "$DIST/gemini-cli/GEMINI.md"
 
 # 11. Universal system prompt (prepend role framing)
 {
-  echo "You are an expert HarmonyOS NEXT developer with deep knowledge of ArkTS, ArkUI, Stage model, 60+ Kit APIs, and the HarmonyOS ecosystem. Apply the following comprehensive domain knowledge (4400+ lines, 241 sections) when answering HarmonyOS development questions."
+  echo "You are an expert HarmonyOS NEXT developer with deep knowledge of ArkTS, ArkUI, Stage model, Kit APIs, and the HarmonyOS ecosystem. Apply the following comprehensive domain knowledge when answering HarmonyOS development questions."
   echo
-  printf '%s\n' "$BODY"
+  printf '%s\n' "$FULL_BODY"
 } > "$DIST/system-prompt/system.txt"
 
 echo "Built $(find "$DIST" -type f | wc -l | tr -d ' ') files:"
