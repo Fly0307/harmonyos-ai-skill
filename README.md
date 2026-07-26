@@ -151,6 +151,7 @@ Skill 是一段领域知识（Markdown 格式），AI 编程工具会在对话�
 |---|---|---|
 | **Claude Code CLI** | `~/.claude/skills/harmonyos-development/` | Claude 读取 `SKILL.md` frontmatter 中的 `description`，当你的问题涉及 HarmonyOS / ArkTS / ArkUI / Stage 模型等时自动加载，无需手动调用 |
 | **Claude Agent SDK** | 将 `harmonyos-development/` 放在任意位置，通过 SDK 的 `skills` 参数指定 | 同 Claude Code —— 基于描述自动加载 |
+| **OpenAI Codex 项目 skill** | `.agents/skills/harmonyos-development/`、`.agents/skills/harmony-hdc-ui-automation/` | 开发类任务加载核心知识 skill；真机检查、HDC、UiTest、hilog 和沙箱文件操作加载自动化 skill |
 
 ### 2. 项目规则文件（项目内每次会话自动附加）
 
@@ -214,6 +215,19 @@ curl -o .claude/skills/harmonyos-development/SKILL.md "$RAW/harmonyos-developmen
 ```
 
 安装后**重启 Claude Code**。验证方法：问 *"What skills are available?"* —— 应该列出 `harmonyos-development`。
+
+### OpenAI Codex 项目内安装
+
+`harmonyos-development` 负责 ArkTS、ArkUI、Stage 模型和工程开发知识；`harmony-hdc-ui-automation` 负责真实设备的 HDC/UiTest 控制、截图、布局树、hilog、应用沙箱文件传输及 UI 自动化。建议保持为两个独立 skill，并在 HarmonyOS 项目中同时建立软链接：
+
+```bash
+cd <你的鸿蒙项目根目录>
+mkdir -p .agents/skills
+ln -s ~/src/harmonyos-ai-skill/harmonyos-development .agents/skills/harmonyos-development
+ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation .agents/skills/harmony-hdc-ui-automation
+```
+
+自动化 skill 的 Python 命令默认使用当前项目的 UV/`.venv` 环境；设备操作前先运行其中的 `doctor` 或 `devices` 检查。
 
 ### Cursor
 
@@ -527,6 +541,11 @@ harmonyos-ai-skill/
 ├─ README_EN.md
 ├─ harmonyos-development/
 │  └─ SKILL.md                          ← 唯一的知识源文件，只编辑这里
+├─ harmony-hdc-ui-automation/
+│  ├─ SKILL.md                          ← HDC、UiTest 与 UI 自动化工作流
+│  ├─ agents/openai.yaml
+│  ├─ references/official-ui-automation-notes.md
+│  └─ scripts/harmony_hdc_ui.py
 ├─ scripts/
 │  └─ build-dist.sh                     ← 重新生成所有 dist/ 文件
 ├─ dist/                                ← 自动生成 —— 不要手动编辑
@@ -625,8 +644,8 @@ URL 中的分支可能已变更。检查 `https://github.com/Fly0307/harmonyos-a
 
 欢迎贡献：
 1. Fork 本仓库
-2. 编辑 `harmonyos-development/SKILL.md`（**唯一**需要编辑的文件 —— `dist/` 是自动生成的）
-3. 运行 `./scripts/build-dist.sh` 重新生成配置文件
-4. 同时提交源文件和 `dist/`，然后开 PR
+2. 编辑对应的源 skill；不要直接编辑 `dist/`
+3. 修改 `harmonyos-development/` 后运行 `./scripts/build-dist.sh` 重新生成配置文件
+4. 提交源文件；若核心开发 skill 有变化，同时提交重新生成的 `dist/`，然后开 PR
 
 欢迎提交：事实纠正、新的 gotcha、更新的 API 名称、description 字段的翻译（提高触发匹配率）。

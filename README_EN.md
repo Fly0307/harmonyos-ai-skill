@@ -151,6 +151,7 @@ The skill teaches the AI everything needed to read, write, review, and debug Har
 |---|---|---|
 | **Claude Code CLI** | `~/.claude/skills/harmonyos-development/` | Claude reads `SKILL.md` frontmatter `description` and auto-loads when your question mentions HarmonyOS / ArkTS / ArkUI / Stage model / etc. Zero manual invocation. |
 | **Claude Agent SDK** | Put the `harmonyos-development/` folder anywhere, point the SDK at it via the `skills` parameter when constructing the agent | Same as Claude Code — description-based auto-loading. |
+| **OpenAI Codex project skills** | `.agents/skills/harmonyos-development/`, `.agents/skills/harmony-hdc-ui-automation/` | Development tasks load the core knowledge skill; device inspection, HDC, UiTest, hilog, and sandbox-file tasks load the automation skill. |
 
 ### 2. Project rules file (auto-attached to every session inside the project)
 
@@ -214,6 +215,19 @@ curl -o .claude/skills/harmonyos-development/SKILL.md "$RAW/harmonyos-developmen
 ```
 
 After installing, **restart Claude Code**. To verify, ask it: *"What skills are available?"* — it should list `harmonyos-development`.
+
+### OpenAI Codex project-local installation
+
+`harmonyos-development` provides ArkTS, ArkUI, Stage model, and project-development knowledge. `harmony-hdc-ui-automation` handles real-device HDC/UiTest control, screenshots, layout trees, hilog, app-sandbox file transfer, and UI automation. Keep them as separate skills and symlink both into each HarmonyOS project:
+
+```bash
+cd <your-harmonyos-project-root>
+mkdir -p .agents/skills
+ln -s ~/src/harmonyos-ai-skill/harmonyos-development .agents/skills/harmonyos-development
+ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation .agents/skills/harmony-hdc-ui-automation
+```
+
+The automation skill runs Python commands in the current project's UV/`.venv` environment. Run its `doctor` or `devices` command before device operations.
 
 ### Cursor
 
@@ -528,6 +542,11 @@ harmonyos-ai-skill/
 ├─ README_EN.md
 ├─ harmonyos-development/
 │  └─ SKILL.md                          ← Source of truth. Edit only here.
+├─ harmony-hdc-ui-automation/
+│  ├─ SKILL.md                          ← HDC, UiTest, and UI automation workflow
+│  ├─ agents/openai.yaml
+│  ├─ references/official-ui-automation-notes.md
+│  └─ scripts/harmony_hdc_ui.py
 ├─ scripts/
 │  └─ build-dist.sh                     ← Regenerates every dist/ file
 ├─ dist/                                ← Generated — do not edit by hand
@@ -626,8 +645,8 @@ Licensed under the **MIT License** — use it freely in personal and commercial 
 
 Contributions welcome:
 1. Fork the repo
-2. Edit `harmonyos-development/SKILL.md` (the **only** file you should ever edit — `dist/` is generated)
-3. Run `./scripts/build-dist.sh` to regenerate distribution files
-4. Commit both the source and the regenerated `dist/`, then open a PR
+2. Edit the relevant source skill; do not edit `dist/` directly
+3. After changing `harmonyos-development/`, run `./scripts/build-dist.sh`
+4. Commit the source; if the core development skill changed, commit the regenerated `dist/` as well, then open a PR
 
 Factual corrections, new gotchas, updated API names, and translations of the description field (for better trigger matching) are all welcome.
