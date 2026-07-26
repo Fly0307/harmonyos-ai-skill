@@ -30,7 +30,8 @@
 通用大模型从来没系统学过鸿蒙——它们的训练数据里几乎没有 ArkTS、Stage 模型、HarmonyOS Kit。
 所以我把华为官方文档、最佳实践、API 参考整理成**轻量路由 + 按需 references** 的知识库，从 ArkTS 严格语法到 60+ Kit、从 Native API 兼容到 API 26 预览适配都可精确检索；设备操作则由独立的 HDC 自动化 Skill 负责。
 
-**两套 Skill 源目录，自动产出 11+ AI 工具的配置。** 支持原生 Skill 的 Agent 只按需加载相关模块；单文件规则工具使用构建生成的完整知识包。
+**两套原生 Skill，开发知识自动适配 11+ AI 工具。** 支持原生 Skill 的
+Agent 只按需加载相关模块；单文件规则工具使用构建生成的完整开发知识包。
 
 <br/>
 
@@ -103,7 +104,7 @@ New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmony-hdc-ui-automa
 
 知识不在 AI 脑子里，得喂进去。**这就是这个仓库做的事。**
 
-开发知识维护在 [`harmonyos-development`](./harmonyos-development/) 的路由层与按需资源中；设备控制维护在独立的 [`harmony-hdc-ui-automation`](./harmony-hdc-ui-automation/) Skill 中。构建器会从这两个源目录生成各工具的配置文件。
+开发知识维护在 [`harmonyos-development`](./harmonyos-development/) 的路由层与按需资源中；设备控制维护在独立的 [`harmony-hdc-ui-automation`](./harmony-hdc-ui-automation/) Skill 中。构建器会完整分发两套原生 Skill，并将开发知识转换为各工具所需的规则文件。
 
 <details>
 <summary><b>🤔 什么是 "skill"（技能包）？</b>（点击展开）</summary>
@@ -112,7 +113,10 @@ Skill 是一段领域知识（Markdown 格式），AI 编程工具会在对话�
 
 </details>
 
-**依赖：** 只需 `git` 和 `curl`（或直接复制粘贴）。无其他依赖。
+**使用规则文件：** 只需 `git` 和 `curl`（或直接复制文件）。
+**使用双 Skill 安装器、HDC 自动化或参与开发：** 需要 Python 3.10+；
+推荐使用 `uv` 和项目现有的 `.venv`。真机能力还需要 DevEco Studio /
+HarmonyOS SDK、`hdc` 以及已连接的设备或模拟器。
 **保鲜度：** 跟随官方版本节奏更新。生产基线覆盖到 HarmonyOS 6.1.1 Release (API 24)（2026/05/26），并跟踪 HarmonyOS 7 / 26.0.0 Beta1（API 26，2026/06/12）预览能力。
 
 ## 知识包内容
@@ -150,12 +154,23 @@ Skill 是一段领域知识（Markdown 格式），AI 编程工具会在对话�
 
 ## 支持的 AI 工具
 
+### 先选择正确的分发方式
+
+| 使用场景 | 推荐产物 | 上下文行为 | HDC 自动化 |
+|---|---|---|---|
+| Codex、Claude Code 等支持原生 Skill 的 Agent | `harmonyos-development/` + `harmony-hdc-ui-automation/` | 先加载短 `SKILL.md`，再按任务读取 references、recipes 或 examples | 支持，独立按需触发 |
+| 支持项目级 `AGENTS.md` 且能读取仓库文件的 Agent | `dist/agents-md/AGENTS.md` + 同目录的 `references/`、`recipes/`、`examples/` | 轻量渐进加载 | 不包含执行器；需要时另装 HDC Skill |
+| 只能接收一个规则文件的工具 | 对应 `dist/` 文件，或 `dist/agents-md/AGENTS.full.md` | 一次性内嵌完整开发知识 | 不包含执行器 |
+
+不要只复制原生 Skill 的 `SKILL.md`，也不要单独复制轻量
+`AGENTS.md`：它们都依赖同级的按需资源目录。
+
 ### 1. 原生 skill 格式（按描述自动匹配加载）
 
 | 工具 | 安装路径 | 激活方式 |
 |---|---|---|
-| **Claude Code CLI** | `~/.claude/skills/harmonyos-development/` | Claude 读取 `SKILL.md` frontmatter 中的 `description`，当你的问题涉及 HarmonyOS / ArkTS / ArkUI / Stage 模型等时自动加载，无需手动调用 |
-| **Claude Agent SDK** | 将 `harmonyos-development/` 放在任意位置，通过 SDK 的 `skills` 参数指定 | 同 Claude Code —— 基于描述自动加载 |
+| **Claude Code CLI** | `~/.claude/skills/harmonyos-development/`、`~/.claude/skills/harmony-hdc-ui-automation/` | Claude 根据两份 `SKILL.md` 的 `description` 分别加载开发知识或设备自动化能力 |
+| **Claude Agent SDK** | 将两个完整 Skill 目录放在任意位置，通过 SDK 的 `skills` 参数指定 | 同 Claude Code，按职责分别触发 |
 | **OpenAI Codex 项目 skill** | `.agents/skills/harmonyos-development/`、`.agents/skills/harmony-hdc-ui-automation/` | 开发类任务加载核心知识 skill；真机检查、HDC、UiTest、hilog 和沙箱文件操作加载自动化 skill |
 
 ### 2. 项目规则文件（项目内每次会话自动附加）
@@ -200,26 +215,29 @@ export RAW=https://raw.githubusercontent.com/Fly0307/harmonyos-ai-skill/zx-dev
 
 ### Claude Code CLI
 
-选择以下三种方式之一：
+以下方式都会安装两个完整 Skill。不要只下载 `SKILL.md`，否则开发 Skill
+无法继续读取 references、recipes 和 examples，自动化 Skill 也会缺少脚本与配置模板。
 
 ```bash
-# 方式 A — 直接复制（最简单，获得静态快照）
-git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
-mkdir -p ~/.claude/skills
-cp -r ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/
-
-# 方式 B — 符号链接（推荐：上游 git pull 后自动同步）
+# 方式 A — 符号链接（推荐：仓库 git pull 后立即同步）
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
+ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation ~/.claude/skills/harmony-hdc-ui-automation
 
-# 方式 C — 仅项目级别（提交到你的鸿蒙项目，团队成员开箱即用）
+# 方式 B — 直接复制（获得静态快照）
+cp -R ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/
+cp -R ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation ~/.claude/skills/
+
+# 方式 C — 仅当前鸿蒙项目使用
 cd <你的鸿蒙项目根目录>
-mkdir -p .claude/skills/harmonyos-development
-curl -o .claude/skills/harmonyos-development/SKILL.md "$RAW/harmonyos-development/SKILL.md"
+mkdir -p .claude/skills
+cp -R ~/src/harmonyos-ai-skill/harmonyos-development .claude/skills/
+cp -R ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation .claude/skills/
 ```
 
-安装后**重启 Claude Code**。验证方法：问 *"What skills are available?"* —— 应该列出 `harmonyos-development`。
+安装后**重启 Claude Code**。验证方法：问 *"What skills are available?"*，
+应同时列出 `harmonyos-development` 和 `harmony-hdc-ui-automation`。
 
 ### OpenAI Codex 项目内安装
 
@@ -229,21 +247,28 @@ hilog、应用沙箱文件传输及 UI 自动化。它们位于同一仓库但�
 在 HarmonyOS 项目中应同时安装：
 
 ```bash
-python ~/src/harmonyos-ai-skill/scripts/install_skills.py \
-  --project <你的鸿蒙项目根目录> \
+cd <你的鸿蒙项目根目录>
+source .venv/bin/activate
+uv run --active python ~/src/harmonyos-ai-skill/scripts/install_skills.py \
+  --project . \
   --mode link
 ```
 
 Windows 未开启开发人员模式，或文件系统不支持符号链接时，改用
 `--mode copy`。安装器不会覆盖已有目录；可用 `--dry-run` 先检查目标。
+只需要其中一个 Skill 时，可追加
+`--skills harmonyos-development` 或
+`--skills harmony-hdc-ui-automation`。
 
 自动化 skill 使用当前项目的 UV 环境，不依赖固定的 `.venv` 路径。首次使用时，
-把 `harmony-hdc-ui-automation/assets/harmony-hdc.example.json` 复制为项目根目录的
-`.harmony-hdc.json`，填写 `bundleName`、`moduleName` 和 `abilityName`，然后运行：
+把配置模板复制为项目根目录的 `.harmony-hdc.json`，填写 `bundleName`、
+`moduleName` 和 `abilityName`，然后运行：
 
 ```bash
-uv run python .agents/skills/harmony-hdc-ui-automation/scripts/harmony_hdc_ui.py doctor
-uv run python .agents/skills/harmony-hdc-ui-automation/scripts/harmony_hdc_ui.py devices
+cp .agents/skills/harmony-hdc-ui-automation/assets/harmony-hdc.example.json \
+  .harmony-hdc.json
+uv run --active python .agents/skills/harmony-hdc-ui-automation/scripts/harmony_hdc_ui.py doctor
+uv run --active python .agents/skills/harmony-hdc-ui-automation/scripts/harmony_hdc_ui.py devices
 ```
 
 ### Cursor
@@ -297,13 +322,31 @@ curl -o .continue/rules/harmonyos.md "$RAW/dist/continue/harmonyos.md"
 
 ### AGENTS.md standard (Codex CLI, opencode, Amp, Aider, Jules)
 
-一个文件即可服务**所有**遵循 [AGENTS.md 标准](https://agents.md) 的工具：
+推荐复制轻量路由及其三个配套目录。Agent 每次会话只读取约 90 行的
+`AGENTS.md`，再按任务加载需要的模块：
 
 ```bash
-curl -o AGENTS.md "$RAW/dist/agents-md/AGENTS.md"
+cd <你的鸿蒙项目根目录>
+cp ~/src/harmonyos-ai-skill/dist/agents-md/AGENTS.md ./AGENTS.md
+cp -R ~/src/harmonyos-ai-skill/dist/agents-md/references ./references
+cp -R ~/src/harmonyos-ai-skill/dist/agents-md/recipes ./recipes
+cp -R ~/src/harmonyos-ai-skill/dist/agents-md/examples ./examples
 ```
 
-用户级（全局）作用域，各工具读取不同路径：
+如果项目根目录已经存在同名资源目录，先检查冲突，不要直接覆盖。无法同时部署
+配套目录时，改用完整单文件：
+
+```bash
+cp ~/src/harmonyos-ai-skill/dist/agents-md/AGENTS.full.md ./AGENTS.md
+```
+
+`AGENTS.full.md` 可独立使用，但会在每次会话加载完整开发知识。它不包含
+`harmony-hdc-ui-automation` 的 Python 执行器；Codex 项目建议优先使用上方的
+双 Skill 安装器。
+
+轻量包优先安装到项目根目录，因为其中的路由使用项目相对路径。配置为用户级
+规则前，确认工具能从全局规则位置解析配套目录；否则使用
+`AGENTS.full.md`，或改装原生双 Skill。常见的全局规则发现路径：
 
 | 工具 | 全局路径 |
 |---|---|
@@ -420,8 +463,9 @@ New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmony-hdc-ui-automa
 
 # 方式 C — 仅项目级别
 Set-Location <你的鸿蒙项目根目录>
-New-Item -ItemType Directory -Force .claude\skills\harmonyos-development | Out-Null
-Invoke-WebRequest -Uri "$env:RAW/harmonyos-development/SKILL.md" -OutFile .claude\skills\harmonyos-development\SKILL.md
+New-Item -ItemType Directory -Force .claude\skills | Out-Null
+Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmonyos-development .claude\skills\
+Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmony-hdc-ui-automation .claude\skills\
 ```
 
 > **开启开发者模式（一次性）：** 设置 → 隐私和安全性 → 开发者选项 → 打开「开发人员模式」。开启后 `New-Item -ItemType SymbolicLink` 不再需要管理员。
@@ -429,13 +473,15 @@ Invoke-WebRequest -Uri "$env:RAW/harmonyos-development/SKILL.md" -OutFile .claud
 ### OpenAI Codex 项目安装（Windows）
 
 ```powershell
-py $HOME\src\harmonyos-ai-skill\scripts\install_skills.py `
-  --project <你的鸿蒙项目根目录> `
+Set-Location <你的鸿蒙项目根目录>
+.\.venv\Scripts\Activate.ps1
+uv run --active python $HOME\src\harmonyos-ai-skill\scripts\install_skills.py `
+  --project . `
   --mode link
 ```
 
 若系统不允许创建符号链接，将 `link` 改为 `copy`。自动化命令使用
-`uv run python ...`，无需写死 `.venv\Scripts\python.exe`。
+`uv run --active python ...`，无需写死 `.venv\Scripts\python.exe`。
 
 ### Cursor（Windows）
 
@@ -471,8 +517,14 @@ Invoke-WebRequest -Uri "$env:RAW/dist/continue/harmonyos.md" -OutFile .continue\
 ### AGENTS.md 标准（Codex CLI / opencode / Amp / Aider）（Windows）
 
 ```powershell
-Invoke-WebRequest -Uri "$env:RAW/dist/agents-md/AGENTS.md" -OutFile AGENTS.md
+Copy-Item $HOME\src\harmonyos-ai-skill\dist\agents-md\AGENTS.md .\AGENTS.md
+Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\dist\agents-md\references .\references
+Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\dist\agents-md\recipes .\recipes
+Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\dist\agents-md\examples .\examples
 ```
+
+无法部署配套目录时，使用
+`Copy-Item $HOME\src\harmonyos-ai-skill\dist\agents-md\AGENTS.full.md .\AGENTS.md`。
 
 全局路径（PowerShell）：
 | 工具 | 路径 |
@@ -530,13 +582,15 @@ Python 代码在 Windows 上和 macOS/Linux 完全相同，参考[上方 Anthrop
 
 | 工具类别 | 触发机制 | 始终开启？ |
 |---|---|---|
-| **Claude Code / Agent SDK** | LLM 读取 skill 的 `description`，判断当前对话是否需要加载 | 否 —— 按需加载，节省上下文 |
+| **Codex / Claude Code / Agent SDK 原生 Skill** | LLM 先根据 `description` 选择 Skill，再读取任务相关模块 | 否 —— 按职责、按模块加载 |
+| **轻量 `AGENTS.md` 包** | 每次注入路由，Agent 再读取同级 references、recipes 或 examples | 仅短路由始终开启 |
 | **Cursor `.mdc`** | Glob 模式匹配当前文件 | 仅 `.ets` / 鸿蒙配置文件 |
-| **Cursor `.cursorrules`、`.windsurfrules`、Copilot instructions、AGENTS.md、GEMINI.md、Continue / Cline rules** | 项目内每次对话都会注入 | 是 |
+| **Cursor `.cursorrules`、`.windsurfrules`、Copilot instructions、GEMINI.md、Continue / Cline rules** | 项目内每次对话注入构建后的完整开发知识 | 是 |
 | **ChatGPT / Gemini Custom Instructions** | 账号下每次对话都会注入 | 是 |
 | **单次粘贴 / API `system`** | 仅粘贴的那次对话 | 按次 |
 
-**经验法则：** 纯鸿蒙项目用"始终开启"的规则文件；混合仓库（如同时有 Android 和鸿蒙代码）用 Cursor 的 `.mdc` 按文件类型匹配，或 Claude Code 的按描述加载。
+**经验法则：** 优先使用原生双 Skill 或轻量 `AGENTS.md` 包。只有工具无法读取
+配套文件时，才使用完整单文件；混合仓库可使用 Cursor `.mdc` 的文件匹配。
 
 ---
 
@@ -568,8 +622,10 @@ Python 代码在 Windows 上和 macOS/Linux 完全相同，参考[上方 Anthrop
 
 ```
 harmonyos-ai-skill/
+├─ .github/workflows/test.yml           ← 跨平台测试与元数据校验
 ├─ .gitignore
 ├─ LICENSE
+├─ README.md
 ├─ README_EN.md
 ├─ harmonyos-development/
 │  ├─ SKILL.md                          ← 轻量主题路由
@@ -590,31 +646,37 @@ harmonyos-ai-skill/
 │  ├─ check-frontmatter.py              ← 元数据长度与路由完整性校验
 │  └─ install_skills.py                 ← 同时链接或复制两个 skill
 ├─ tests/                               ← 构建器、CLI 与安装器单元测试
-├─ .github/workflows/test.yml           ← macOS/Windows/Linux CI
-├─ dist/                                ← 自动生成 —— 不要手动编辑
-│  ├─ claude-code/harmonyos-development/SKILL.md
-│  ├─ claude-code/harmony-hdc-ui-automation/SKILL.md
-│  ├─ cursor/harmonyos.mdc
-│  ├─ cursor/.cursorrules
-│  ├─ copilot/copilot-instructions.md
-│  ├─ windsurf/.windsurfrules
-│  ├─ continue/harmonyos.md
-│  ├─ cline/custom-instructions.md
-│  ├─ agents-md/AGENTS.md
-│  ├─ agents-md/AGENTS.full.md
-│  ├─ gemini-cli/GEMINI.md
-│  ├─ plain/harmonyos-knowledge.md
-│  └─ system-prompt/system.txt
-└─ README.md
+└─ dist/                                ← 65 个自动生成文件，不要手动编辑
+   ├─ claude-code/                      ← 两个完整原生 Skill 副本
+   │  ├─ harmonyos-development/
+   │  └─ harmony-hdc-ui-automation/
+   ├─ agents-md/
+   │  ├─ AGENTS.md                      ← 轻量路由
+   │  ├─ AGENTS.full.md                 ← 完整单文件
+   │  ├─ references/
+   │  ├─ recipes/
+   │  └─ examples/
+   ├─ cursor/
+   │  ├─ harmonyos.mdc
+   │  └─ .cursorrules
+   ├─ copilot/copilot-instructions.md
+   ├─ windsurf/.windsurfrules
+   ├─ continue/harmonyos.md
+   ├─ cline/custom-instructions.md
+   ├─ gemini-cli/GEMINI.md
+   ├─ plain/harmonyos-knowledge.md
+   └─ system-prompt/system.txt
 ```
 
 **双 skill、单仓库工作流：**
 
 1. 根据职责编辑 `harmonyos-development/` 或 `harmony-hdc-ui-automation/`
-2. 运行 `python scripts/build_dist.py`
-3. 运行 `python -m unittest discover -s tests -v`
-4. 运行 `python scripts/build_dist.py --check`
-5. 同时提交源文件和重新生成的 `dist/`
+2. 激活当前仓库环境：`source .venv/bin/activate`
+3. 校验 Skill：`uv run --active python scripts/check-frontmatter.py`
+4. 生成产物：`uv run --active python scripts/build_dist.py`
+5. 运行测试：`uv run --active python -m unittest discover -s tests -v`
+6. 确认无漂移：`uv run --active python scripts/build_dist.py --check`
+7. 同时提交源文件、测试和重新生成的 `dist/`
 
 ---
 
@@ -622,12 +684,12 @@ harmonyos-ai-skill/
 
 ```bash
 cd /path/to/your/clone
-git pull
-python scripts/build_dist.py
-# 然后重新复制你所用工具的配置文件
+git pull origin zx-dev
 ```
 
-如果是通过 `ln -s` 安装的，只需 `git pull` —— 符号链接会自动获取最新内容。
+通过符号链接安装双 Skill 的用户到此即可；复制安装的用户需要重新复制两个完整
+Skill 目录。使用 `dist` 规则文件的用户重新复制对应产物。`dist` 已随仓库提交，
+普通使用者不需要本地重建；只有修改源 Skill 时才运行构建器。
 
 ---
 
@@ -662,7 +724,9 @@ description: >
 - **可操作** —— 优先用具体的代码/配置片段，而非抽象解释
 - **诚实面对空白** —— 如果某功能已弃用就说明，没有数据就不写
 
-编辑源文件后，运行 `python scripts/build_dist.py` 重新生成 `dist/` 下的所有工具配置。
+编辑源文件后，在已激活的 `.venv` 中运行
+`uv run --active python scripts/check-frontmatter.py`，再运行
+`uv run --active python scripts/build_dist.py` 重新生成 `dist/`。
 macOS/Linux 也可继续使用 `./scripts/build-dist.sh`。
 
 ---
@@ -671,7 +735,8 @@ macOS/Linux 也可继续使用 `./scripts/build-dist.sh`。
 
 **AI 仍然给出泛泛的 TypeScript/React 回答**
 - 确认文件放在了正确的路径（见上方*支持的 AI 工具*表格）
-- Claude Code：运行 *"What skills are available?"* —— 如果没有列出 `harmonyos-development`，重启 Claude Code 或检查 `~/.claude/skills/`
+- Claude Code：运行 *"What skills are available?"* —— 如果没有同时列出两个 Skill，重启 Claude Code 或检查 `~/.claude/skills/`
+- Codex：确认 `.agents/skills/` 下存在两个完整 Skill 目录，而不是只有两份 `SKILL.md`
 - 项目规则工具（Cursor、Copilot 等）：确保你编辑的文件在**规则文件所在的仓库内**，规则不会在仓库外生效
 - 粘贴类工具（ChatGPT、DeepSeek 等）：系统提示是按对话生效的，粘贴后要**开新对话**
 
@@ -693,8 +758,10 @@ URL 中的分支可能已变更。检查 `https://github.com/Fly0307/harmonyos-a
 欢迎贡献：
 1. Fork 本仓库
 2. 编辑对应的源 skill；不要直接编辑 `dist/`
-3. 运行 `python -m unittest discover -s tests -v`
-4. 运行 `python scripts/build_dist.py`，再用 `--check` 确认产物同步
-5. 提交源文件和对应的 `dist/`，然后开 PR
+3. 运行 `uv run --active python scripts/check-frontmatter.py`
+4. 运行 `uv run --active python scripts/build_dist.py`
+5. 运行 `uv run --active python -m unittest discover -s tests -v`
+6. 运行 `uv run --active python scripts/build_dist.py --check`
+7. 提交源文件、测试和对应的 `dist/`，然后开 PR
 
 欢迎提交：事实纠正、新的 gotcha、更新的 API 名称、description 字段的翻译（提高触发匹配率）。
