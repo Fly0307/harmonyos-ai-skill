@@ -3,6 +3,7 @@
 ## Contents
 - Packaging types
 - Publishing
+- Linux CI, signing, and device smoke testing
 - Code obfuscation (ArkGuard)
 - Key obfuscation options
 - Common whitelist scenarios (`-keep-property-name`)
@@ -42,6 +43,51 @@ Official samples: https://developer.huawei.com/consumer/cn/samples/
 3. Configure signing in `build-profile.json5`
 4. Build release HAP/APP bundle: `hvigorw assembleApp`
 5. Upload to **AppGallery Connect** for review
+
+## Linux CI, signing, and device smoke testing
+
+Use a 64-bit Linux environment with GLIBC 2.28 or newer, JDK 17, and the Command Line Tools that match the project SDK. Prefer the Node.js, Hvigor, ohpm, SDK, and HDC versions bundled with that toolchain instead of mixing globally installed versions.
+
+Install dependencies at the project root and in modules that declare their own dependencies:
+
+```sh
+ohpm install --all
+```
+
+Run Hvigor without a persistent daemon in CI:
+
+```sh
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon
+hvigorw assembleHsp --mode module -p module=library@default -p product=default --no-daemon
+hvigorw assembleHar --mode module -p module=library@default -p product=default --no-daemon
+hvigorw assembleApp --mode project -p product=default -p buildMode=release --no-daemon
+```
+
+Linux is case-sensitive. Enable the project-level strict check so Windows and default macOS filesystems do not hide import or resource-name mismatches:
+
+```json5
+{
+  "app": {
+    "products": [{
+      "name": "default",
+      "compatibleSdkVersion": "<project-compatible-sdk>",
+      "runtimeOS": "HarmonyOS",
+      "buildOption": {
+        "strictMode": {
+          "caseSensitiveCheck": true
+        }
+      }
+    }]
+  }
+}
+```
+
+Use the schema produced by the installed DevEco toolchain if it differs. Keep signing certificates, `.p12` files, profiles, passwords, and private keys in CI secrets; never print complete signing commands containing secrets.
+
+After producing a signed HAP, use `$harmony-hdc-ui-automation` to select the target device, install and launch the package, capture HiLog evidence, and fail the pipeline when the smoke test fails. Keep exact HDC commands in that automation skill.
+
+Official CI reference: https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/ide-command-line-building-app
 
 
 ## Code obfuscation (ArkGuard)

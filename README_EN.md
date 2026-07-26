@@ -8,7 +8,7 @@
 
 ### The largest HarmonyOS knowledge pack for AI coding — make 11+ AI tools actually write ArkTS
 
-*4,425 lines of battle-tested knowledge · 241 sections · 105+ code examples · production baseline API 24, tracking HarmonyOS 7 / API 26 Beta1*
+*2 responsibility-separated skills · lightweight routing + 19 on-demand reference modules · API 24 production baseline, tracking HarmonyOS 7 / API 26 Beta1*
 
 [![License](https://img.shields.io/badge/License-MIT-yellow)](./LICENSE)
 [![HarmonyOS](https://img.shields.io/badge/HarmonyOS-6.1%20%2F%206.1.1-black)](https://developer.huawei.com/consumer/cn/)
@@ -28,9 +28,9 @@
 **Ask Copilot about `@ObjectLink` — it says "that API doesn't exist."**
 
 General-purpose LLMs have never systematically learned HarmonyOS — their training data barely contains ArkTS, the Stage model, or HarmonyOS Kits.
-So I distilled the entire Huawei official documentation, best practices, and API reference into a **4,425-line knowledge pack you drop straight into the LLM's context**: ArkTS strict-mode syntax, all 60+ Kits, glassmorphism effects, AI super frame, app continuation, PersistenceV2 — it's all in here.
+So I organized Huawei's official documentation, best practices, and API references into a **lightweight router plus on-demand references**. Agents can retrieve ArkTS, 60+ Kits, Native API compatibility, and API 26 preview guidance precisely, while a separate HDC automation skill owns device operations.
 
-**One Markdown source → drop-in configs for 11+ AI tools.** Once installed, your AI writes HarmonyOS-correct code like an engineer who's actually read the docs — instead of turning `@State` into `useState`.
+**Two source skill directories produce drop-in configs for 11+ AI tools.** Native skill runtimes load only the relevant modules; single-file rule systems receive a generated complete knowledge pack.
 
 <br/>
 
@@ -104,7 +104,7 @@ Using a different tool (Cursor / Copilot / ChatGPT...)? See [all install options
 
 The knowledge isn't in the AI's head — you have to feed it in. **That's what this repo does.**
 
-Write the knowledge once — [`harmonyos-development/SKILL.md`](./harmonyos-development/SKILL.md) — and install it into every major AI coding tool via pre-built drop-in files.
+Development knowledge lives in the router and on-demand resources under [`harmonyos-development`](./harmonyos-development/). Device control stays in the separate [`harmony-hdc-ui-automation`](./harmony-hdc-ui-automation/) skill. The builder generates tool-specific artifacts from both source directories.
 
 <details>
 <summary><b>🤔 What is a "skill"?</b> (click to expand)</summary>
@@ -122,7 +122,7 @@ A skill is a chunk of domain knowledge (in Markdown) that an AI coding tool load
 <img src="./assets/en/knowledge-map.svg" alt="Knowledge architecture" width="100%"/>
 </div>
 
-The skill teaches the AI everything needed to read, write, review, and debug HarmonyOS NEXT native apps (**4,425 lines of dense, actionable knowledge, 241 sections, 105+ code examples**):
+`harmonyos-development/SKILL.md` is only the topic router. Detailed knowledge lives in 19 references, 2 recipes, 2 source examples, and behavioral eval cases:
 
 - **Language & framework** — ArkTS strictness rules, naming conventions, 13 high-performance coding rules (const, TypedArrays, HashMap, lazy import, etc.), coding style guide
 - **App architecture** — Stage model: UIAbility, ExtensionAbility, AbilityStage, WindowStage lifecycles; module.json5 / app.json5 configuration
@@ -143,6 +143,7 @@ The skill teaches the AI everything needed to read, write, review, and debug Har
 - **Engineering quality** — security coding rules + network security config (HTTPS/cert pinning), code obfuscation (ArkGuard), arkxtest testing (JsUnit + UiTest), 18 common gotchas
 - **Third-party libraries** — @ohos/axios (HTTP client), @ohos/pulltorefresh, @ohos/lottie (JSON animation), @ohos/imageknife (image caching), dayjs (date utils)
 - **API 23 / 24 new features** — Navigation routing stack binding, Menu anchorPosition, UDMF/drag/crypto C APIs, relationalStore sendable enhancement, AI super frame, Camera Kit "Follow the Person" subject tracking, delayed preview, DevEco Studio API 24 support
+- **Current compatibility & diagnostics** — Native `APIAVAILABLE`/weak references, Linux CI, `jsLeakWatcher`, HWASan, `ContainerReader` breakpoints, and global component reuse
 - **Multi-device** — responsive breakpoints (xs/sm/md/lg/xl), GridRow/GridCol, foldable support
 - **Packaging & tooling** — HAP/HSP/HAR, atomic services, DevEco Studio 6.1+ (hvigor), OHPM, ArkCompiler
 
@@ -579,9 +580,12 @@ harmonyos-ai-skill/
 ├─ LICENSE
 ├─ README_EN.md
 ├─ harmonyos-development/
-│  ├─ SKILL.md                          ← ArkTS, ArkUI, and project knowledge
+│  ├─ SKILL.md                          ← Lightweight topic router
 │  ├─ agents/openai.yaml
-│  └─ references/
+│  ├─ references/                       ← 19 on-demand knowledge modules
+│  ├─ recipes/                          ← Build diagnosis and code review workflows
+│  ├─ examples/                         ← Permission and LazyForEach examples
+│  └─ evals/cases.yaml                  ← Skill behavior regression cases
 ├─ harmony-hdc-ui-automation/
 │  ├─ SKILL.md                          ← HDC, UiTest, and UI automation workflow
 │  ├─ agents/openai.yaml
@@ -591,8 +595,9 @@ harmonyos-ai-skill/
 ├─ scripts/
 │  ├─ build_dist.py                     ← Cross-platform dist build/check
 │  ├─ build-dist.sh                     ← POSIX compatibility wrapper
+│  ├─ check-frontmatter.py              ← Metadata length and route validation
 │  └─ install_skills.py                 ← Links or copies both skills
-├─ tests/                               ← CLI and installer unit tests
+├─ tests/                               ← Builder, CLI, and installer unit tests
 ├─ .github/workflows/test.yml           ← macOS/Windows/Linux CI
 ├─ dist/                                ← Generated — do not edit by hand
 │  ├─ claude-code/harmonyos-development/SKILL.md
@@ -604,6 +609,7 @@ harmonyos-ai-skill/
 │  ├─ continue/harmonyos.md
 │  ├─ cline/custom-instructions.md
 │  ├─ agents-md/AGENTS.md
+│  ├─ agents-md/AGENTS.full.md
 │  ├─ gemini-cli/GEMINI.md
 │  ├─ plain/harmonyos-knowledge.md
 │  └─ system-prompt/system.txt
@@ -660,7 +666,7 @@ rules, gotchas. Avoid prose filler. Favour bullets and compact examples.
 
 - **Focused** — one domain per skill. Don't combine HarmonyOS + iOS + Android.
 - **Dense** — cut every sentence that doesn't teach the AI something it can cite.
-- **Trigger-rich** — list every plausible user phrasing in `description`, in English and Chinese if relevant. The LLM's matching is fuzzy but benefits from explicit keywords.
+- **Trigger-rich but concise** — cover the important user phrasings in `description` while staying within 1,024 characters.
 - **Actionable** — prefer concrete code/config snippets over abstract explanations.
 - **Honest about gaps** — if a feature is deprecated, say so. If you don't have data, leave it out.
 
@@ -679,7 +685,7 @@ use `./scripts/build-dist.sh`.
 - For paste-based tools (ChatGPT, DeepSeek, …), the system prompt is per-conversation; start a **new chat** after pasting.
 
 **Rule file is too long for the tool's context limit.**
-Unlikely — `SKILL.md` is ~4200 lines (~150 KB). All major AI tools (Claude/GPT-4/Gemini etc.) accept it. If you hit a limit (e.g. some local small models), trim sections from `dist/plain/harmonyos-knowledge.md` manually.
+Native skill runtimes and `dist/agents-md/AGENTS.md` do not load the full knowledge base at once: the root router selects only the required references, recipes, or examples. Single-file outputs such as `dist/plain/` intentionally embed everything; for strict context limits, use the native skill package or lightweight `AGENTS.md` instead of manually damaging source references.
 
 **`curl` fails with 404.**
 The branch in the URL may have moved. Check `https://github.com/Fly0307/harmonyos-ai-skill/branches` and update `$RAW` accordingly.

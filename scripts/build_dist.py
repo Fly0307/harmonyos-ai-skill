@@ -15,6 +15,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEVELOPMENT_SKILL = REPO_ROOT / "harmonyos-development"
 AUTOMATION_SKILL = REPO_ROOT / "harmony-hdc-ui-automation"
 DIST = REPO_ROOT / "dist"
+EMBEDDED_SUPPORT_DIRS = ("references", "recipes", "examples")
 
 CURSOR_HEADER = """\
 ---
@@ -54,20 +55,31 @@ def routing_body(skill_file: Path) -> str:
     return "\n".join(lines[separators[1] + 1:]).lstrip("\n").rstrip("\n")
 
 
-def full_body(router: str, references: Path) -> str:
+def support_files(skill_dir: Path) -> list[Path]:
+    """Return deterministic text support files for single-file targets."""
+    files: list[Path] = []
+    for directory_name in EMBEDDED_SUPPORT_DIRS:
+        directory = skill_dir / directory_name
+        if directory.is_dir():
+            files.extend(path for path in directory.rglob("*") if path.is_file())
+    return sorted(files, key=lambda path: path.relative_to(skill_dir).as_posix())
+
+
+def full_body(router: str, skill_dir: Path) -> str:
     """Build the single-file body used by non-native agent formats."""
     parts = [
         router,
         "",
-        "# Embedded HarmonyOS References",
+        "# Embedded HarmonyOS Support Files",
         "",
-        "The following sections inline the reference files for single-file distribution targets.",
+        "The following sections inline references, recipes, and examples for single-file distribution targets.",
     ]
-    for reference in sorted(references.glob("*.md")):
+    for support_file in support_files(skill_dir):
+        relative_path = support_file.relative_to(skill_dir).as_posix()
         parts.extend([
             "",
-            f"<!-- Source: references/{reference.name} -->",
-            read_text(reference),
+            f"<!-- Source: {relative_path} -->",
+            read_text(support_file),
         ])
     return "\n".join(parts).rstrip("\n") + "\n"
 
@@ -101,7 +113,7 @@ def build_into(destination: Path) -> int:
     copy_skill(AUTOMATION_SKILL, destination / "claude-code" / AUTOMATION_SKILL.name)
 
     router = routing_body(source_file)
-    embedded = full_body(router, references)
+    embedded = full_body(router, DEVELOPMENT_SKILL)
 
     write_text(destination / "plain" / "harmonyos-knowledge.md", embedded)
     write_text(destination / "cursor" / "harmonyos.mdc", CURSOR_HEADER + embedded)
@@ -121,7 +133,10 @@ def build_into(destination: Path) -> int:
     agents_dir = destination / "agents-md"
     write_text(agents_dir / "AGENTS.md", router)
     write_text(agents_dir / "AGENTS.full.md", embedded)
-    shutil.copytree(references, agents_dir / "references")
+    for directory_name in EMBEDDED_SUPPORT_DIRS:
+        source_directory = DEVELOPMENT_SKILL / directory_name
+        if source_directory.is_dir():
+            shutil.copytree(source_directory, agents_dir / directory_name)
     return sum(1 for path in destination.rglob("*") if path.is_file())
 
 

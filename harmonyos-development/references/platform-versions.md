@@ -9,6 +9,7 @@ Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 de
 - What's new in API 23 (HarmonyOS 6.1)
 - What's new in API 24 (HarmonyOS 6.1.1 Release)
 - HarmonyOS 7 / API 26 Beta1 preview (2026/06/12)
+- API 26 behavior-scope notes and July documentation status
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
@@ -99,7 +100,7 @@ Use the local notes below as a snapshot. For latest/current SDK behavior, exact 
 
 ### HarmonyOS 7 / API 26 Beta1 preview (2026/06/12)
 
-**Status:** developer Beta, not the default production baseline. Mention API 26 features only when the user asks about HarmonyOS 7, API 26, HDC 2026, preview adaptation, or Beta1 capabilities. For production code, prefer API 24 Release unless the project explicitly targets API 26 preview.
+**Status (source snapshot checked 2026/07/25):** developer Beta, not the default production baseline. The reviewed upstream sources did not identify API 26 Beta2, RC, or Release. Mention API 26 features only when the user asks about HarmonyOS 7, API 26, HDC 2026, preview adaptation, or Beta1 capabilities. For production code, prefer API 24 Release unless the project explicitly targets API 26 preview, and verify the latest status before answering current-version questions.
 
 **Developer kit baseline:** HarmonyOS SDK **26.0.0 Beta1** (OpenHarmony SDK `Ohos_sdk_public 26.0.0.23`, API Version 26.0.0 Beta1) and DevEco Studio **26.0.0 Beta1 (26.0.0.461)**. Toolchain: HarmonyOS Emulator **26.0.0.200**, Hvigor/hvigorw **6.26.1**, ohpm **26.0.0.410**, Node.js **24.14.1**, hstack **6.0.0**, `compileSdkVersion: "26.0.0"`, `targetSdkVersion: "4.0.0(10)~26.0.0"`.
 
@@ -149,6 +150,12 @@ Use the local notes below as a snapshot. For latest/current SDK behavior, exact 
 - **ArkUI** — `NodeAdapter.onAttachToNode`, mouse `rawDeltaX/rawDeltaY`, `LayoutPolicy.matchParent`, `EmbeddedComponent` focus, `WithTheme`, `queryNavDestinationInfo`, `NODE_SWIPER_EVENT_ON_CONTENT_DID_SCROLL`, and shadow blur radius behavior have adaptation-impacting changes.
 - **Permissions** — `ohos.permission.READ_IMAGEVIDEO`, `getUidRxBytes`, `getUidTxBytes`, and general permission policy behavior change under API 26 rules.
 - **UX** — form controls minimum touch target changes from 28vp to 32vp for Button/Button-style Toggle/Select/Chip/ChipGroup; built-in text line breaking and small-language line height are optimized; Dialog, Toast, AlphabetIndexer, and text selection menu enable immersive system material by default. Disable globally with `metadata` name `ohos.arkui.UIMaterial.state` value `disable`, or per component with `uiMaterial.Material.empty`.
+
+**API 26 V2 behavior scope:**
+- **Always effective after the runtime/system upgrade:** JSVM/ArkWeb Chromium 132 to 144 changes, async-function type correction, XML sibling-text preservation, mouse raw deltas, Stage-only ArkUI API constraints, home `NavDestination` query callbacks, `@ReusableV2` dynamic reuse identifiers, `READ_IMAGEVIDEO` behavior, and small-language font updates.
+- **Effective when `targetSdkVersion >= 26.0.0`:** In-House package-event controls, Wasm jitless defaults, `NodeAdapter.onAttachToNode`, leading `CustomSpan`/`ImageAttachment` paragraph behavior, `LayoutPolicy.matchParent`, `EmbeddedComponent` focus, `WithTheme`, Swiper content-scroll events, shadow blur radius, UID traffic queries, permission policy changes, 32vp form-control targets, text-style updates, immersive materials, and half-modal centered-dialog height.
+
+Do not infer the scope of an individual behavior from the summary alone. Check the page-specific compatibility note for the target API before changing production code.
 
 **DevEco Studio 26.0.0 Beta1 additions:**
 - AI coding: custom Agent token usage display, conversation rollback, built-in Inline Chat commands such as File Comments and Parameter Validation, `UI Verification` tool, and custom Commands.

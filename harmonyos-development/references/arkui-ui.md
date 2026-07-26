@@ -19,10 +19,12 @@
 - sys.symbol — icon glyph system
 - Multi-device / foldable screen adaptation (API 21)
 - Breakpoint detection
+- Container breakpoints with `ContainerReader` (API 26 preview)
 - Foldable screen — listen for fold/unfold events
 - Responsive layout switching (if/else, not .visibility)
 - `GridRow`/`GridCol` does not support `LazyForEach`
 - Share breakpoint via `@Provide`/`@Consume`
+- Global `@Reusable` / `@ReusableV2` pools (API 26 preview)
 - UIDesignKit — icon processing & HdsNavigation
 - `hdsDrawable` — icon adaptive processing
 - `HdsNavigation` — system-style navigation component
@@ -198,6 +200,10 @@ struct MyListItem {
 }
 ```
 Rules: only works within same parent; don't nest `@Reusable` inside `@Reusable`; combine with `LazyForEach`.
+
+**Global reuse pools (API 26 preview):** `@ComponentV2({ reusePool, poolAccepts })` can let compatible child trees share `@ReusableV2` components across different parents. Use this only when the project explicitly targets API 26 preview. Release heavy resources in `aboutToRecycle()`, reset transient state before reused content is shown, keep reuse identifiers stable, and profile before accepting the added lifecycle complexity.
+
+Official guide: https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/arkts-global-reuse-pool
 
 **Layout performance rules:**
 - Max 3 levels of nesting — each level adds layout cost
@@ -550,6 +556,21 @@ export function getBreakpoint(): string {
   }
 }
 ```
+
+### Container breakpoints with `ContainerReader` (API 26 preview)
+
+Use `ContainerReader` when a reusable component must adapt to its own container rather than the application window. Context7 confirms this capability starts at API 26.0.0, so keep it out of API 24 production examples unless the project explicitly targets the preview SDK.
+
+The official guide binds container size and breakpoint state to
+`ContainerReader`, then derives layout properties such as `Grid` columns from
+the returned breakpoint. Keep those decisions bound to the container so they
+update when a split view, nested pane, or reusable card changes size.
+
+Treat the guide's imports, bindings, and `breakpointConfig` signatures as
+API-26-SDK-specific. Read the current guide and verify them against the
+project's installed preview SDK before generating compile-ready code.
+
+Official guide: https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/arkts-layout-development-container-reader
 
 
 ### Foldable screen — listen for fold/unfold events

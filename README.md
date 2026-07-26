@@ -8,7 +8,7 @@
 
 ### 鸿蒙最大的 AI 编程知识库 · 让 11+ AI 工具真正会写 ArkTS
 
-*4425 行实战知识 · 241 个章节 · 105+ 代码示例 · 生产覆盖 API 24，跟踪 HarmonyOS 7 / API 26 Beta1*
+*2 个职责分离的 Skill · 轻量路由 + 19 个按需 reference 模块 · 生产覆盖 API 24，跟踪 HarmonyOS 7 / API 26 Beta1*
 
 [![License](https://img.shields.io/badge/License-MIT-yellow)](./LICENSE)
 [![HarmonyOS](https://img.shields.io/badge/HarmonyOS-6.1%20%2F%206.1.1-black)](https://developer.huawei.com/consumer/cn/)
@@ -28,9 +28,9 @@
 **问 Copilot `@ObjectLink` 怎么用，它说"这 API 不存在"？**
 
 通用大模型从来没系统学过鸿蒙——它们的训练数据里几乎没有 ArkTS、Stage 模型、HarmonyOS Kit。
-所以我把华为官方文档、最佳实践、API 参考浓缩成一份**4425 行、可直接喂进 LLM 上下文**的知识包，从 ArkTS 严格语法到 60+ Kit、从液态玻璃到 AI super frame、从应用接续到 PersistenceV2，全都覆盖。
+所以我把华为官方文档、最佳实践、API 参考整理成**轻量路由 + 按需 references** 的知识库，从 ArkTS 严格语法到 60+ Kit、从 Native API 兼容到 API 26 预览适配都可精确检索；设备操作则由独立的 HDC 自动化 Skill 负责。
 
-**一份 Markdown 源文件，自动产出 11+ AI 工具的配置。** 装上之后，AI 会像读过华为文档的工程师一样，给你符合鸿蒙规范的代码——而不是把 `@State` 写成 `useState`。
+**两套 Skill 源目录，自动产出 11+ AI 工具的配置。** 支持原生 Skill 的 Agent 只按需加载相关模块；单文件规则工具使用构建生成的完整知识包。
 
 <br/>
 
@@ -103,7 +103,7 @@ New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmony-hdc-ui-automa
 
 知识不在 AI 脑子里，得喂进去。**这就是这个仓库做的事。**
 
-只维护一份知识源文件 [`harmonyos-development/SKILL.md`](./harmonyos-development/SKILL.md)，即可自动产出所有 AI 工具的配置文件。
+开发知识维护在 [`harmonyos-development`](./harmonyos-development/) 的路由层与按需资源中；设备控制维护在独立的 [`harmony-hdc-ui-automation`](./harmony-hdc-ui-automation/) Skill 中。构建器会从这两个源目录生成各工具的配置文件。
 
 <details>
 <summary><b>🤔 什么是 "skill"（技能包）？</b>（点击展开）</summary>
@@ -121,7 +121,7 @@ Skill 是一段领域知识（Markdown 格式），AI 编程工具会在对话�
 <img src="./assets/knowledge-map.svg" alt="知识架构图" width="100%"/>
 </div>
 
-这份知识包教会 AI 读写、审查和调试 HarmonyOS NEXT 原生应用所需的一切（**4425 行密集、可操作的知识，241 个章节，105+ 代码示例**）：
+`harmonyos-development/SKILL.md` 只负责主题路由，详细知识分布在 19 个 references、2 个 recipes、2 个可运行示例和行为 eval 中：
 
 - **语言与框架** — ArkTS 严格模式规则、命名规范、13 条高性能编码规则（const、TypedArray、HashMap、lazy import 等）、编码风格指南
 - **应用架构** — Stage 模型：UIAbility、ExtensionAbility、AbilityStage、WindowStage 生命周期；module.json5 / app.json5 配置
@@ -142,6 +142,7 @@ Skill 是一段领域知识（Markdown 格式），AI 编程工具会在对话�
 - **工程质量** — 安全编码规则 + 网络安全配置（HTTPS/证书固定）、代码混淆（ArkGuard）、arkxtest 测试框架（JsUnit + UiTest）、18 条常见陷阱（gotchas）
 - **三方库** — @ohos/axios（HTTP 客户端）、@ohos/pulltorefresh（下拉刷新）、@ohos/lottie（JSON 动画）、@ohos/imageknife（图片缓存）、dayjs（日期处理）
 - **API 23 / 24 新特性** — Navigation 路由栈绑定、Menu anchorPosition、UDMF/drag/crypto C API、relationalStore sendable 增强、AI super frame、Camera Kit "Follow the Person" 主体追踪、延迟预览、DevEco Studio API 24 支持
+- **最新兼容与调测** — Native `APIAVAILABLE`/弱引用、Linux CI、`jsLeakWatcher`、HWASan、`ContainerReader` 容器断点、全局组件复用
 - **多设备** — 响应式断点（xs/sm/md/lg/xl）、GridRow/GridCol、折叠屏适配
 - **打包与工具** — HAP/HSP/HAR、原子化服务、DevEco Studio 6.1+（hvigor）、OHPM、ArkCompiler
 
@@ -571,9 +572,12 @@ harmonyos-ai-skill/
 ├─ LICENSE
 ├─ README_EN.md
 ├─ harmonyos-development/
-│  ├─ SKILL.md                          ← ArkTS、ArkUI 与工程开发知识
+│  ├─ SKILL.md                          ← 轻量主题路由
 │  ├─ agents/openai.yaml
-│  └─ references/
+│  ├─ references/                       ← 19 个按需知识模块
+│  ├─ recipes/                          ← 构建诊断与代码审查流程
+│  ├─ examples/                         ← 权限与 LazyForEach 示例
+│  └─ evals/cases.yaml                  ← Skill 行为回归用例
 ├─ harmony-hdc-ui-automation/
 │  ├─ SKILL.md                          ← HDC、UiTest 与 UI 自动化工作流
 │  ├─ agents/openai.yaml
@@ -583,8 +587,9 @@ harmonyos-ai-skill/
 ├─ scripts/
 │  ├─ build_dist.py                     ← 跨平台重建/校验 dist
 │  ├─ build-dist.sh                     ← POSIX 兼容入口
+│  ├─ check-frontmatter.py              ← 元数据长度与路由完整性校验
 │  └─ install_skills.py                 ← 同时链接或复制两个 skill
-├─ tests/                               ← CLI 与安装器单元测试
+├─ tests/                               ← 构建器、CLI 与安装器单元测试
 ├─ .github/workflows/test.yml           ← macOS/Windows/Linux CI
 ├─ dist/                                ← 自动生成 —— 不要手动编辑
 │  ├─ claude-code/harmonyos-development/SKILL.md
@@ -596,6 +601,7 @@ harmonyos-ai-skill/
 │  ├─ continue/harmonyos.md
 │  ├─ cline/custom-instructions.md
 │  ├─ agents-md/AGENTS.md
+│  ├─ agents-md/AGENTS.full.md
 │  ├─ gemini-cli/GEMINI.md
 │  ├─ plain/harmonyos-knowledge.md
 │  └─ system-prompt/system.txt
@@ -652,7 +658,7 @@ description: >
 
 - **聚焦** —— 一个 skill 一个领域，不要混合鸿蒙 + iOS + Android
 - **密集** —— 删掉每一句不能教会 AI 新知识的话
-- **触发词丰富** —— 在 `description` 中列出所有可能的用户表达方式（中英文都写）。LLM 的匹配是模糊的，但显式关键词能提高命中率
+- **触发词丰富但精简** —— 在 `description` 中覆盖关键用户表达，并保持在 1024 字符以内
 - **可操作** —— 优先用具体的代码/配置片段，而非抽象解释
 - **诚实面对空白** —— 如果某功能已弃用就说明，没有数据就不写
 
@@ -670,7 +676,7 @@ macOS/Linux 也可继续使用 `./scripts/build-dist.sh`。
 - 粘贴类工具（ChatGPT、DeepSeek 等）：系统提示是按对话生效的，粘贴后要**开新对话**
 
 **规则文件太长，超出工具的上下文限制？**
-不太可能 —— `SKILL.md` 约 4200 行（~150 KB），主流 AI 工具（Claude/GPT-4/Gemini 等）都能接受。如果确实遇到限制（如部分本地小模型），手动裁剪 `dist/plain/harmonyos-knowledge.md`。
+原生 Skill 和 `dist/agents-md/AGENTS.md` 不会一次加载完整知识库：根路由只负责选择 references、recipes 或 examples。`dist/plain/` 等单文件格式会有意嵌入完整内容；遇到严格上下文限制时，优先使用原生 Skill 或轻量 `AGENTS.md`，不要手工破坏源 references。
 
 **`curl` 返回 404？**
 URL 中的分支可能已变更。检查 `https://github.com/Fly0307/harmonyos-ai-skill/branches` 并更新 `$RAW`。

@@ -25,18 +25,21 @@ When using Context7, query the most specific Huawei library ID with the exact AP
 ## How to Load Context
 
 1. Classify the user request by topic.
-2. Read the matching file(s) from `references/`.
-3. If the topic is unclear, search references with `rg -n "keyword|API|symbol" references` and then read the smallest relevant file.
-4. Do not read every reference file up front. Add more files only when the first file points to a cross-domain dependency.
+2. Read the matching file(s) from `references/` or `recipes/`.
+3. If the topic is unclear, search with `rg -n "keyword|API|symbol" references recipes examples` and then read the smallest relevant file.
+4. Load an `examples/` file only when concrete source code helps answer the request.
+5. Do not read every support file up front. Add more files only when the first file points to a cross-domain dependency.
 
 ## Reference Routing
 
 | User request or topic | Read |
 |---|---|
 | HarmonyOS version, SDK/API baseline, DevEco version, API 23/24/26, HarmonyOS 6.1/6.1.1/7 | `references/platform-versions.md` |
+| DevEco Code, DevEco CLI, CodeGenie, Agent Framework Kit, Intents Kit, app Skills, AgentCard, device-side A2A | `references/ai-development-tools.md` |
 | Project layout, Stage project setup, Hvigor, build profile, ohpm dependencies | `references/project-setup-build.md` |
+| Native C/C++, NAPI, `compatibleSdkVersion`, weak libraries, `APIAVAILABLE`, old-device compatibility | `references/native-api-compatibility.md` |
 | ArkTS syntax, strict checker, naming, performance rules, TaskPool, Worker, `@Concurrent`, `@Sendable` | `references/arkts-language.md` |
-| ArkUI components, layout, animation, forms, dialogs, tabs, lists, responsive/foldable UI, keyboard, dark mode, gestures, immersive window | `references/arkui-ui.md` |
+| ArkUI components, layout, animation, forms, dialogs, tabs, lists, `ContainerReader`, reusable pools, responsive/foldable UI, keyboard, dark mode, gestures, immersive window | `references/arkui-ui.md` |
 | Router, Navigation, NavPathStack, EventHub, decorators, StateStore, state management | `references/navigation-state.md` |
 | UIAbility, Want, module declarations, permissions, startAbilityByType, background tasks, security, continuation, app links, shortcuts | `references/abilities-permissions.md` |
 | Atomic services, meta-services, distributed capabilities, Form Kit service cards | `references/forms-cards-services.md` |
@@ -46,10 +49,19 @@ When using Context7, query the most specific Huawei library ID with the exact AP
 | Photo picker, Camera Kit, Audio Kit, CoreSpeechKit, Scan Kit, AVSession, AVPlayer, Image Kit, Core Vision | `references/media-camera-audio-image.md` |
 | Location Kit, Weather Service Kit, Map Kit | `references/maps-location-weather.md` |
 | Notification Kit, Push Kit, Account Kit, Payment Kit, Share Kit | `references/push-payment-share-account.md` |
-| arkxtest, JsUnit, UiTest, debugging tools, cold start, memory optimization, performance | `references/testing-debugging-performance.md` |
-| HAP/HSP/HAR packaging, publishing, ArkGuard obfuscation | `references/packaging-publishing-obfuscation.md` |
+| arkxtest, JsUnit, UiTest, `jsLeakWatcher`, HWASan, debugging tools, cold start, memory optimization, performance | `references/testing-debugging-performance.md` |
+| HAP/HSP/HAR packaging, Linux CI, signing, publishing, ArkGuard obfuscation | `references/packaging-publishing-obfuscation.md` |
 | Known compile errors, SDK 6.0.1/API 21 fixes, common gotchas | `references/api-errors-gotchas.md` |
 | Huawei docs links, GitCode sample projects, sample lookup by domain | `references/samples.md` |
+
+## Workflow and Example Routing
+
+| User request or task | Read |
+|---|---|
+| Diagnose a DevEco Studio, Hvigor, ohpm, signing, packaging, ArkTS, or NAPI build error | `recipes/debug-build-error.md` |
+| Review ArkTS or ArkUI code | `recipes/review-arkts-code.md` |
+| Show a minimal camera runtime permission flow | `examples/permission-request.ets` plus `references/abilities-permissions.md` |
+| Show `LazyForEach`, stable keys, `@Observed`, and `@ObjectLink` together | `examples/lazyforeach-list.ets` plus `references/arkui-ui.md` |
 
 ## Common Cross-File Paths
 
@@ -58,6 +70,9 @@ When using Context7, query the most specific Huawei library ID with the exact AP
 - Media or camera feature with background playback: read `references/media-camera-audio-image.md` plus `references/abilities-permissions.md`.
 - Networked UI feature: read `references/networking-web.md` plus `references/arkui-ui.md`.
 - Build or compile failure: read `references/project-setup-build.md`, `references/api-errors-gotchas.md`, then any file named by the failing API.
+- API 26 container layout or global reuse: read `references/arkui-ui.md` plus `references/platform-versions.md`.
+- Native API compatibility: read `references/native-api-compatibility.md` plus `references/project-setup-build.md`.
+- Linux CI and signed-device smoke testing: read `references/packaging-publishing-obfuscation.md`, then use `$harmony-hdc-ui-automation` for exact device commands.
 
 ## Coordination With Device Automation
 

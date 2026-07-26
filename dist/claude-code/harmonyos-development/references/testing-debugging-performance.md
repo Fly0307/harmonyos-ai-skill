@@ -4,6 +4,7 @@
 - Testing — arkxtest framework
 - JsUnit
 - Debugging & tooling
+- Memory-leak diagnostics (`jsLeakWatcher`, JS Heap, HWASan)
 - UiTest — common patterns (arkxtest)
 - Cold start optimization
 - Lazy-import (`import()`)
@@ -71,6 +72,25 @@ Test files in `entry/src/ohosTest/ets/test/`. For UI automation, see the **UiTes
 - **HiLog** — logging: `hilog.info(0x0001, 'TAG', 'message %{public}s', arg)`
 - **Instruments: SmartPerf / DevEco Profiler** — CPU/GPU/memory/energy profiling
 - **DevEco Testing** — UI automation, performance testing, monkey/stress, compatibility
+
+## Memory-leak diagnostics
+
+Choose the smallest tool that can identify the suspected ownership layer:
+
+| Suspected area | Prefer |
+|---|---|
+| ArkTS component or lifecycle object | `@ohos.hiviewdfx.jsLeakWatcher` during development |
+| ArkTS heap retention path | DevEco Studio JS Heap / heap snapshot |
+| Native allocation, free, or out-of-bounds error | HWASan / AddrSanitizer in development or test |
+| Freeze or runtime resource pressure | AppFreeze, HiAppEvent, HiLog, DevEco Testing |
+
+`jsLeakWatcher` periodically checks registered lifecycle objects that remain alive after they should be collectible. Treat it as a development diagnostic. If production diagnosis is unavoidable, limit it to a small gray-release population instead of enabling it permanently for all users.
+
+Do not claim a leak is fixed from one snapshot. Reproduce the same lifecycle, collect comparable evidence, identify the retained ownership path, apply the fix, and repeat the scenario.
+
+Use `$harmony-hdc-ui-automation` when the investigation needs focused HiLog capture, screenshots, layout trees, or repeated device-side reproduction.
+
+Official reference: https://developer.huawei.com/consumer/cn/doc/best-practices/bpta-stability-memleak-detection-overview
 
 
 ## UiTest — common patterns (arkxtest)
