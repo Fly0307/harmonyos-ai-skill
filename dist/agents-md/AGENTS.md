@@ -59,6 +59,15 @@ When using Context7, query the most specific Huawei library ID with the exact AP
 - Networked UI feature: read `references/networking-web.md` plus `references/arkui-ui.md`.
 - Build or compile failure: read `references/project-setup-build.md`, `references/api-errors-gotchas.md`, then any file named by the failing API.
 
+## Coordination With Device Automation
+
+- Use `$harmony-hdc-ui-automation` for connected-device or emulator operations, screenshots, live
+  UI trees, hilog capture, sandbox file transfer, exploratory input, and host-side Hypium Python.
+- Load both skills when implementing a HarmonyOS change and validating it on a real device or
+  emulator.
+- Keep exact HDC and UiTest execution commands in the automation skill; keep architecture, ArkTS
+  design, and SDK/API selection in this skill.
+
 ## Output Guidance
 
 - Give ArkTS/ArkUI examples that match strict mode and the project SDK baseline.

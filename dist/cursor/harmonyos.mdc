@@ -75,6 +75,15 @@ When using Context7, query the most specific Huawei library ID with the exact AP
 - Networked UI feature: read `references/networking-web.md` plus `references/arkui-ui.md`.
 - Build or compile failure: read `references/project-setup-build.md`, `references/api-errors-gotchas.md`, then any file named by the failing API.
 
+## Coordination With Device Automation
+
+- Use `$harmony-hdc-ui-automation` for connected-device or emulator operations, screenshots, live
+  UI trees, hilog capture, sandbox file transfer, exploratory input, and host-side Hypium Python.
+- Load both skills when implementing a HarmonyOS change and validating it on a real device or
+  emulator.
+- Keep exact HDC and UiTest execution commands in the automation skill; keep architecture, ArkTS
+  design, and SDK/API selection in this skill.
+
 ## Output Guidance
 
 - Give ArkTS/ArkUI examples that match strict mode and the project SDK baseline.
@@ -5094,44 +5103,32 @@ Test files in `entry/src/ohosTest/ets/test/`. For UI automation, see the **UiTes
 ## UiTest — common patterns (arkxtest)
 
 ```ts
-import { Driver, ON, Component } from '@ohos.UiTest'
-import AbilityDelegatorRegistry from '@ohos.app.ability.abilityDelegatorRegistry'
+import { describe, it, Level } from '@ohos/hypium';
+import { abilityDelegatorRegistry, Driver, ON } from '@kit.TestKit';
 
-const DELEGATOR = AbilityDelegatorRegistry.getAbilityDelegator()
+export default function uiTest(): void {
+  describe('UiTestSuite', () => {
+    it('opens the target page', Level.LEVEL0, async () => {
+      const delegator = abilityDelegatorRegistry.getAbilityDelegator();
+      const bundleName = abilityDelegatorRegistry.getArguments().bundleName;
+      await delegator.startAbility({
+        bundleName,
+        abilityName: 'EntryAbility'
+      });
 
-// Launch app before tests
-beforeAll(async (done: Function) => {
-  await DELEGATOR.startAbility({ bundleName: 'com.example.app', abilityName: 'EntryAbility' })
-  await new Promise(r => setTimeout(r, 2000))  // wait for UI to render
-  done()
-})
+      const driver = Driver.create();
+      await driver.waitForIdle(1000, 10_000);
+      await driver.assertComponentExist(ON.text('首页'));
 
-it('example', 0, async (done: Function) => {
-  const driver = Driver.create()
+      const button = await driver.findComponent(ON.text('打开'));
+      await button.click();
+      await driver.waitForIdle(1000, 10_000);
 
-  // Find by text / type / content description
-  const btn = await driver.findComponent(ON.text('发布'))
-  const input = await driver.findComponent(ON.type('TextInput'))
-  const items = await driver.findComponents(ON.type('SymbolGlyph'))
-
-  // Actions — ALL must be awaited
-  await btn.click()
-  await input.inputText('hello')
-
-  // Wait after state-changing actions
-  await new Promise(r => setTimeout(r, 800))
-
-  // Component refs become stale after state changes — re-find
-  const btnAfter = await driver.findComponent(ON.text('发布'))
-
-  // Get bounds for position-based selection
-  const bounds = await btn.getBounds()  // { top, left, right, bottom }
-
-  // Navigate back
-  await driver.pressBack()
-
-  done()
-})
+      await driver.assertComponentExist(ON.text('详情'));
+      await driver.pressBack();
+    });
+  });
+}
 ```
 
 Key rules:
@@ -5139,7 +5136,9 @@ Key rules:
 - After any click/input that changes state, component references may be stale — always re-`findComponent`
 - Tests only run on real device or emulator — **Previewer does not support UiTest**
 - `Driver.create()` fresh per `it` block (don't share across tests)
-- Use `sleep` / `setTimeout` after navigation to let the new page render before asserting
+- Prefer `waitForIdle` / `delayMs` over fixed host-side sleeps
+- Use `$harmony-hdc-ui-automation` for HDC execution, screenshots, layout dumps, hilog evidence,
+  app sandbox transfer, and host-side Hypium Python automation
 
 
 ## Cold start optimization

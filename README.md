@@ -56,6 +56,7 @@
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
+ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation ~/.claude/skills/harmony-hdc-ui-automation
 # 重启 Claude Code，然后问："What skills are available?"
 ```
 
@@ -65,6 +66,7 @@ ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
+ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation ~/.claude/skills/harmony-hdc-ui-automation
 # 重启 Claude Code，然后问："What skills are available?"
 ```
 
@@ -77,10 +79,12 @@ ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmonyos-development -Target $HOME\src\harmonyos-ai-skill\harmonyos-development
+New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmony-hdc-ui-automation -Target $HOME\src\harmonyos-ai-skill\harmony-hdc-ui-automation
 # 重启 Claude Code，然后问："What skills are available?"
 ```
 
-> 不想开发者模式？把 `New-Item -ItemType SymbolicLink ...` 换成 `Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmonyos-development $HOME\.claude\skills\` 即可（但上游更新后需要重新复制）。
+> 不想开启开发者模式？可将两个目录分别 `Copy-Item -Recurse` 到
+> `$HOME\.claude\skills\`（但上游更新后需要重新复制）。
 
 用其他工具（Cursor / Copilot / ChatGPT ...）？查看[下方完整安装指南](#安装)。
 
@@ -218,16 +222,28 @@ curl -o .claude/skills/harmonyos-development/SKILL.md "$RAW/harmonyos-developmen
 
 ### OpenAI Codex 项目内安装
 
-`harmonyos-development` 负责 ArkTS、ArkUI、Stage 模型和工程开发知识；`harmony-hdc-ui-automation` 负责真实设备的 HDC/UiTest 控制、截图、布局树、hilog、应用沙箱文件传输及 UI 自动化。建议保持为两个独立 skill，并在 HarmonyOS 项目中同时建立软链接：
+`harmonyos-development` 负责 ArkTS、ArkUI、Stage 模型和工程开发知识；
+`harmony-hdc-ui-automation` 负责真实设备的 HDC/UiTest 控制、截图、布局树、
+hilog、应用沙箱文件传输及 UI 自动化。它们位于同一仓库但保持独立触发，
+在 HarmonyOS 项目中应同时安装：
 
 ```bash
-cd <你的鸿蒙项目根目录>
-mkdir -p .agents/skills
-ln -s ~/src/harmonyos-ai-skill/harmonyos-development .agents/skills/harmonyos-development
-ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation .agents/skills/harmony-hdc-ui-automation
+python ~/src/harmonyos-ai-skill/scripts/install_skills.py \
+  --project <你的鸿蒙项目根目录> \
+  --mode link
 ```
 
-自动化 skill 的 Python 命令默认使用当前项目的 UV/`.venv` 环境；设备操作前先运行其中的 `doctor` 或 `devices` 检查。
+Windows 未开启开发人员模式，或文件系统不支持符号链接时，改用
+`--mode copy`。安装器不会覆盖已有目录；可用 `--dry-run` 先检查目标。
+
+自动化 skill 使用当前项目的 UV 环境，不依赖固定的 `.venv` 路径。首次使用时，
+把 `harmony-hdc-ui-automation/assets/harmony-hdc.example.json` 复制为项目根目录的
+`.harmony-hdc.json`，填写 `bundleName`、`moduleName` 和 `abilityName`，然后运行：
+
+```bash
+uv run python .agents/skills/harmony-hdc-ui-automation/scripts/harmony_hdc_ui.py doctor
+uv run python .agents/skills/harmony-hdc-ui-automation/scripts/harmony_hdc_ui.py devices
+```
 
 ### Cursor
 
@@ -372,7 +388,9 @@ print(response.content[0].text)
 
 ## 🪟 Windows 用户专用（PowerShell）
 
-> 不用 WSL/Git Bash？想直接在 PowerShell 里装？下面是完整的命令对照，**所有工具都能跑通**。
+> 不用 WSL/Git Bash？想直接在 PowerShell 里装？下面给出原生 PowerShell
+> 命令。规则文件和 Python 辅助工具跨平台；HDC/UiTest 是否可用仍取决于
+> 本机 DevEco Studio、HarmonyOS SDK、驱动和设备连接。
 > 推荐使用 **PowerShell 7+**（`winget install Microsoft.PowerShell`）。
 
 <details>
@@ -391,11 +409,13 @@ $env:RAW = "https://raw.githubusercontent.com/Fly0307/harmonyos-ai-skill/zx-dev"
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmonyos-development $HOME\.claude\skills\
+Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmony-hdc-ui-automation $HOME\.claude\skills\
 
 # 方式 B — 符号链接（推荐：需要管理员权限或开启「开发者模式」）
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmonyos-development -Target $HOME\src\harmonyos-ai-skill\harmonyos-development
+New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmony-hdc-ui-automation -Target $HOME\src\harmonyos-ai-skill\harmony-hdc-ui-automation
 
 # 方式 C — 仅项目级别
 Set-Location <你的鸿蒙项目根目录>
@@ -404,6 +424,17 @@ Invoke-WebRequest -Uri "$env:RAW/harmonyos-development/SKILL.md" -OutFile .claud
 ```
 
 > **开启开发者模式（一次性）：** 设置 → 隐私和安全性 → 开发者选项 → 打开「开发人员模式」。开启后 `New-Item -ItemType SymbolicLink` 不再需要管理员。
+
+### OpenAI Codex 项目安装（Windows）
+
+```powershell
+py $HOME\src\harmonyos-ai-skill\scripts\install_skills.py `
+  --project <你的鸿蒙项目根目录> `
+  --mode link
+```
+
+若系统不允许创建符号链接，将 `link` 改为 `copy`。自动化命令使用
+`uv run python ...`，无需写死 `.venv\Scripts\python.exe`。
 
 ### Cursor（Windows）
 
@@ -540,16 +571,24 @@ harmonyos-ai-skill/
 ├─ LICENSE
 ├─ README_EN.md
 ├─ harmonyos-development/
-│  └─ SKILL.md                          ← 唯一的知识源文件，只编辑这里
+│  ├─ SKILL.md                          ← ArkTS、ArkUI 与工程开发知识
+│  ├─ agents/openai.yaml
+│  └─ references/
 ├─ harmony-hdc-ui-automation/
 │  ├─ SKILL.md                          ← HDC、UiTest 与 UI 自动化工作流
 │  ├─ agents/openai.yaml
+│  ├─ assets/harmony-hdc.example.json
 │  ├─ references/official-ui-automation-notes.md
 │  └─ scripts/harmony_hdc_ui.py
 ├─ scripts/
-│  └─ build-dist.sh                     ← 重新生成所有 dist/ 文件
+│  ├─ build_dist.py                     ← 跨平台重建/校验 dist
+│  ├─ build-dist.sh                     ← POSIX 兼容入口
+│  └─ install_skills.py                 ← 同时链接或复制两个 skill
+├─ tests/                               ← CLI 与安装器单元测试
+├─ .github/workflows/test.yml           ← macOS/Windows/Linux CI
 ├─ dist/                                ← 自动生成 —— 不要手动编辑
 │  ├─ claude-code/harmonyos-development/SKILL.md
+│  ├─ claude-code/harmony-hdc-ui-automation/SKILL.md
 │  ├─ cursor/harmonyos.mdc
 │  ├─ cursor/.cursorrules
 │  ├─ copilot/copilot-instructions.md
@@ -563,11 +602,13 @@ harmonyos-ai-skill/
 └─ README.md
 ```
 
-**单源工作流：**
+**双 skill、单仓库工作流：**
 
-1. 编辑 `harmonyos-development/SKILL.md`
-2. 运行 `./scripts/build-dist.sh`
-3. 同时提交源文件和重新生成的 `dist/`
+1. 根据职责编辑 `harmonyos-development/` 或 `harmony-hdc-ui-automation/`
+2. 运行 `python scripts/build_dist.py`
+3. 运行 `python -m unittest discover -s tests -v`
+4. 运行 `python scripts/build_dist.py --check`
+5. 同时提交源文件和重新生成的 `dist/`
 
 ---
 
@@ -576,7 +617,7 @@ harmonyos-ai-skill/
 ```bash
 cd /path/to/your/clone
 git pull
-./scripts/build-dist.sh
+python scripts/build_dist.py
 # 然后重新复制你所用工具的配置文件
 ```
 
@@ -615,7 +656,8 @@ description: >
 - **可操作** —— 优先用具体的代码/配置片段，而非抽象解释
 - **诚实面对空白** —— 如果某功能已弃用就说明，没有数据就不写
 
-编辑源文件后，运行 `./scripts/build-dist.sh` 重新生成 `dist/` 下的所有工具配置。
+编辑源文件后，运行 `python scripts/build_dist.py` 重新生成 `dist/` 下的所有工具配置。
+macOS/Linux 也可继续使用 `./scripts/build-dist.sh`。
 
 ---
 
@@ -645,7 +687,8 @@ URL 中的分支可能已变更。检查 `https://github.com/Fly0307/harmonyos-a
 欢迎贡献：
 1. Fork 本仓库
 2. 编辑对应的源 skill；不要直接编辑 `dist/`
-3. 修改 `harmonyos-development/` 后运行 `./scripts/build-dist.sh` 重新生成配置文件
-4. 提交源文件；若核心开发 skill 有变化，同时提交重新生成的 `dist/`，然后开 PR
+3. 运行 `python -m unittest discover -s tests -v`
+4. 运行 `python scripts/build_dist.py`，再用 `--check` 确认产物同步
+5. 提交源文件和对应的 `dist/`，然后开 PR
 
 欢迎提交：事实纠正、新的 gotcha、更新的 API 名称、description 字段的翻译（提高触发匹配率）。

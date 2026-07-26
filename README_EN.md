@@ -56,6 +56,7 @@ Pick the command set for your OS — **copy-paste straight into your terminal**:
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
+ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation ~/.claude/skills/harmony-hdc-ui-automation
 # Restart Claude Code, then ask: "What skills are available?"
 ```
 
@@ -65,6 +66,7 @@ ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git ~/src/harmonyos-ai-skill
 mkdir -p ~/.claude/skills
 ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-development
+ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation ~/.claude/skills/harmony-hdc-ui-automation
 # Restart Claude Code, then ask: "What skills are available?"
 ```
 
@@ -77,10 +79,13 @@ ln -s ~/src/harmonyos-ai-skill/harmonyos-development ~/.claude/skills/harmonyos-
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmonyos-development -Target $HOME\src\harmonyos-ai-skill\harmonyos-development
+New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmony-hdc-ui-automation -Target $HOME\src\harmonyos-ai-skill\harmony-hdc-ui-automation
 # Restart Claude Code, then ask: "What skills are available?"
 ```
 
-> Don't want to enable Developer Mode? Replace the `New-Item -ItemType SymbolicLink ...` line with `Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmonyos-development $HOME\.claude\skills\` (but you'll need to re-copy after upstream updates).
+> Don't want to enable Developer Mode? `Copy-Item -Recurse` both source
+> directories into `$HOME\.claude\skills\` instead (you will need to re-copy
+> after upstream updates).
 
 Using a different tool (Cursor / Copilot / ChatGPT...)? See [all install options below](#installation).
 
@@ -218,16 +223,32 @@ After installing, **restart Claude Code**. To verify, ask it: *"What skills are 
 
 ### OpenAI Codex project-local installation
 
-`harmonyos-development` provides ArkTS, ArkUI, Stage model, and project-development knowledge. `harmony-hdc-ui-automation` handles real-device HDC/UiTest control, screenshots, layout trees, hilog, app-sandbox file transfer, and UI automation. Keep them as separate skills and symlink both into each HarmonyOS project:
+`harmonyos-development` provides ArkTS, ArkUI, Stage model, and
+project-development knowledge. `harmony-hdc-ui-automation` handles real-device
+HDC/UiTest control, screenshots, layout trees, hilog, app-sandbox file
+transfer, and UI automation. They live in one repository but retain separate
+activation boundaries. Install both in each HarmonyOS project:
 
 ```bash
-cd <your-harmonyos-project-root>
-mkdir -p .agents/skills
-ln -s ~/src/harmonyos-ai-skill/harmonyos-development .agents/skills/harmonyos-development
-ln -s ~/src/harmonyos-ai-skill/harmony-hdc-ui-automation .agents/skills/harmony-hdc-ui-automation
+python ~/src/harmonyos-ai-skill/scripts/install_skills.py \
+  --project <your-harmonyos-project-root> \
+  --mode link
 ```
 
-The automation skill runs Python commands in the current project's UV/`.venv` environment. Run its `doctor` or `devices` command before device operations.
+Use `--mode copy` when Windows Developer Mode is disabled or the filesystem
+does not support symbolic links. The installer refuses to overwrite existing
+directories; use `--dry-run` to inspect destinations first.
+
+The automation skill uses the current project's UV environment and does not
+hard-code a `.venv` path. Copy
+`harmony-hdc-ui-automation/assets/harmony-hdc.example.json` to
+`.harmony-hdc.json` in the project root, set `bundleName`, `moduleName`, and
+`abilityName`, then run:
+
+```bash
+uv run python .agents/skills/harmony-hdc-ui-automation/scripts/harmony_hdc_ui.py doctor
+uv run python .agents/skills/harmony-hdc-ui-automation/scripts/harmony_hdc_ui.py devices
+```
 
 ### Cursor
 
@@ -373,7 +394,10 @@ print(response.content[0].text)
 
 ## 🪟 Windows users (native PowerShell)
 
-> Don't want to use WSL/Git Bash? Want to install directly in PowerShell? Here's the complete command translation — **every tool works on Windows**.
+> Don't want to use WSL/Git Bash? The following commands work in native
+> PowerShell. Rule files and Python helpers are cross-platform; HDC/UiTest
+> availability still depends on the local DevEco Studio, HarmonyOS SDK,
+> drivers, and device connection.
 > Recommended: **PowerShell 7+** (`winget install Microsoft.PowerShell`).
 
 <details>
@@ -392,11 +416,13 @@ $env:RAW = "https://raw.githubusercontent.com/Fly0307/harmonyos-ai-skill/zx-dev"
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmonyos-development $HOME\.claude\skills\
+Copy-Item -Recurse $HOME\src\harmonyos-ai-skill\harmony-hdc-ui-automation $HOME\.claude\skills\
 
 # Option B — symlink (recommended: needs admin or "Developer Mode" enabled)
 git clone -b zx-dev https://github.com/Fly0307/harmonyos-ai-skill.git $HOME\src\harmonyos-ai-skill
 New-Item -ItemType Directory -Force $HOME\.claude\skills | Out-Null
 New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmonyos-development -Target $HOME\src\harmonyos-ai-skill\harmonyos-development
+New-Item -ItemType SymbolicLink -Path $HOME\.claude\skills\harmony-hdc-ui-automation -Target $HOME\src\harmonyos-ai-skill\harmony-hdc-ui-automation
 
 # Option C — project-local only
 Set-Location <your-harmonyos-project-root>
@@ -405,6 +431,18 @@ Invoke-WebRequest -Uri "$env:RAW/harmonyos-development/SKILL.md" -OutFile .claud
 ```
 
 > **Enable Developer Mode (one-time):** Settings → Privacy & security → For developers → toggle "Developer Mode" on. After that, `New-Item -ItemType SymbolicLink` no longer needs admin.
+
+### OpenAI Codex project installation (Windows)
+
+```powershell
+py $HOME\src\harmonyos-ai-skill\scripts\install_skills.py `
+  --project <your-harmonyos-project-root> `
+  --mode link
+```
+
+Change `link` to `copy` if Windows cannot create symbolic links. Automation
+commands use `uv run python ...`; no fixed `.venv\Scripts\python.exe` path is
+required.
 
 ### Cursor (Windows)
 
@@ -541,16 +579,24 @@ harmonyos-ai-skill/
 ├─ LICENSE
 ├─ README_EN.md
 ├─ harmonyos-development/
-│  └─ SKILL.md                          ← Source of truth. Edit only here.
+│  ├─ SKILL.md                          ← ArkTS, ArkUI, and project knowledge
+│  ├─ agents/openai.yaml
+│  └─ references/
 ├─ harmony-hdc-ui-automation/
 │  ├─ SKILL.md                          ← HDC, UiTest, and UI automation workflow
 │  ├─ agents/openai.yaml
+│  ├─ assets/harmony-hdc.example.json
 │  ├─ references/official-ui-automation-notes.md
 │  └─ scripts/harmony_hdc_ui.py
 ├─ scripts/
-│  └─ build-dist.sh                     ← Regenerates every dist/ file
+│  ├─ build_dist.py                     ← Cross-platform dist build/check
+│  ├─ build-dist.sh                     ← POSIX compatibility wrapper
+│  └─ install_skills.py                 ← Links or copies both skills
+├─ tests/                               ← CLI and installer unit tests
+├─ .github/workflows/test.yml           ← macOS/Windows/Linux CI
 ├─ dist/                                ← Generated — do not edit by hand
 │  ├─ claude-code/harmonyos-development/SKILL.md
+│  ├─ claude-code/harmony-hdc-ui-automation/SKILL.md
 │  ├─ cursor/harmonyos.mdc
 │  ├─ cursor/.cursorrules
 │  ├─ copilot/copilot-instructions.md
@@ -564,11 +610,13 @@ harmonyos-ai-skill/
 └─ README.md
 ```
 
-**Single-source workflow:**
+**Two skills, one repository workflow:**
 
-1. Edit `harmonyos-development/SKILL.md`
-2. Run `./scripts/build-dist.sh`
-3. Commit both the source and the regenerated `dist/`
+1. Edit `harmonyos-development/` or `harmony-hdc-ui-automation/` according to its responsibility
+2. Run `python scripts/build_dist.py`
+3. Run `python -m unittest discover -s tests -v`
+4. Run `python scripts/build_dist.py --check`
+5. Commit both the source and regenerated `dist/`
 
 ---
 
@@ -577,7 +625,7 @@ harmonyos-ai-skill/
 ```bash
 cd /path/to/your/clone
 git pull
-./scripts/build-dist.sh
+python scripts/build_dist.py
 # then re-copy whichever file your tool reads
 ```
 
@@ -616,7 +664,9 @@ rules, gotchas. Avoid prose filler. Favour bullets and compact examples.
 - **Actionable** — prefer concrete code/config snippets over abstract explanations.
 - **Honest about gaps** — if a feature is deprecated, say so. If you don't have data, leave it out.
 
-After editing the source file, run `./scripts/build-dist.sh` to regenerate every tool-specific drop-in under `dist/`.
+After editing a source skill, run `python scripts/build_dist.py` to regenerate
+every tool-specific drop-in under `dist/`. macOS/Linux users may continue to
+use `./scripts/build-dist.sh`.
 
 ---
 
@@ -646,7 +696,8 @@ Licensed under the **MIT License** — use it freely in personal and commercial 
 Contributions welcome:
 1. Fork the repo
 2. Edit the relevant source skill; do not edit `dist/` directly
-3. After changing `harmonyos-development/`, run `./scripts/build-dist.sh`
-4. Commit the source; if the core development skill changed, commit the regenerated `dist/` as well, then open a PR
+3. Run `python -m unittest discover -s tests -v`
+4. Run `python scripts/build_dist.py`, then verify with `--check`
+5. Commit the source and matching `dist/`, then open a PR
 
 Factual corrections, new gotchas, updated API names, and translations of the description field (for better trigger matching) are all welcome.
