@@ -3,6 +3,7 @@
 ## Contents
 - HarmonyOS Kits (common imports)
 - Full Kit catalog — official SDK categories (developer.huawei.com/consumer/cn/sdk/)
+- API 26 Release additions and current import keys
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
@@ -11,6 +12,7 @@ Load this file only when the user request matches these topics. For newer SDK cl
 - Huawei Developer Docs: `https://developer.huawei.com/consumer/cn/doc/`
 - HarmonyOS guide pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-guides/...`; do not open the prefix as a standalone URL.
 - HarmonyOS API reference pages: use page-specific docs under `developer.huawei.com/consumer/cn/doc/harmonyos-references/...`; do not open the prefix as a standalone URL.
+- API 26 Release notes: `https://developer.huawei.com/consumer/cn/doc/doccenter-release-notes/2600`
 - Context7 Library IDs: `/websites/developer_huawei_consumer_cn_doc`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-guides`, `/websites/developer_huawei_consumer_cn_doc_harmonyos-references`
 - Suggested query keywords: `HarmonyOS Kit import, @kit package, SDK category, kit catalog, API reference import path`
 
@@ -50,6 +52,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 | IME Kit | `IMEKit` | Input method engine development |
 | IPC Kit | `IPCKit` | Inter-process communication (Parcel, RemoteObject) |
 | Localization Kit | `LocalizationKit` | i18n, l10n, RTL, pseudo-localization |
+| Agent Framework Kit | `AgentFrameworkKit` | Agent function components, controllers, and app-side A2A interactions |
 
 **应用服务 Application Services**
 
@@ -75,6 +78,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 | Pen Kit | `Penkit` | Stylus / handwriting component (M-Pencil devices) |
 | Wear Engine | `WearEngine` | Phone↔watch communication, device discovery |
 | Health Service Kit | `HealthServiceKit` | Health data services |
+| Data Augmentation Kit | `DataAugmentationKit` | RAG, knowledge processing, and on-device local chat model APIs |
 
 **系统 System**
 
@@ -87,6 +91,9 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 | Device Security Kit | `DeviceSecurityKit` | Code-signature queries, digital shield, security events |
 | Distributed Service Kit | `DistributedServiceKit` | deviceManager, cross-device discovery |
 | Enterprise Threat Protection Kit | `EnterpriseThreatProtectionKit` | Enterprise file threat scan, isolation, restore, delete |
+| Enterprise Space Kit | `EnterpriseSpaceKit` | Workspace authentication, space management, and file-transfer policy |
+| Desktop Extension Kit | `DeskTopExtensionKit` | PC/2-in-1 status-bar and desktop extension abilities |
+| Accessory Kit | `AccessoryKit` | Accessory wake-up, system-service linkage, scheduling, and trust management |
 | MDM Kit | `MDMKit` | Enterprise device, app, and settings management |
 | Network Boost Kit | `NetworkBoostKit` | Network transfer optimization and low-power transfer mode |
 | NearLink Kit | `NearLinkKit` | NearLink device capability and partner device management |
@@ -110,6 +117,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 |---|---|---|
 | ArkGraphics 2D | `ArkGraphics2D` | 2D Canvas drawing, effects, blur, shadow |
 | ArkGraphics 3D | `ArkGraphics3D` | 3D scene graph, glTF rendering |
+| Spatial Recon Kit | `SpatialReconKit` | Spatial reconstruction, 3DGS rendering, and spatial editing |
 | UI Design Kit | `UIDesignKit` | `hdsDrawable` icon processing, `HdsNavigation` component |
 | XComponent | (ArkUI built-in) | Native OpenGL ES / Vulkan surface via NAPI |
 
