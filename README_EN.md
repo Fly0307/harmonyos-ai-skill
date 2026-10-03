@@ -113,6 +113,33 @@ A skill is a chunk of domain knowledge (in Markdown) that an AI coding tool load
 
 </details>
 
+## 🧭 Progressive loading: route first, load knowledge on demand
+
+The core mechanism is **progressive loading**. This repository does not put every HarmonyOS explanation into one giant Markdown file and inject it into every session. An agent reads a short routing entry first, then opens only the modules needed for the current task.
+
+| Layer | Contents | Loading behavior |
+|---|---|---|
+| `harmonyos-development/SKILL.md` | Topic routing, official sources, and reference selection rules | Loaded first when the native skill is triggered |
+| `references/` | ArkTS, ArkUI, projects, Kits, permissions, networking, and testing modules | Loaded by task topic |
+| `recipes/`, `examples/` | Build debugging, code review, and runnable examples | Loaded only when a workflow or code sample is needed |
+| `harmony-hdc-ui-automation/` | HDC, UiTest, hilog, screenshots, and device-file operations | Triggered separately for device tasks |
+| `dist/agents-md/AGENTS.md` | Lightweight router for AGENTS.md-compatible tools | Loads a short entry first, then resolves sibling directories |
+| `dist/*` single-file artifacts | Flattened router plus all references for compatibility | Used only by tools that cannot read multiple files |
+
+Native skills and the lightweight `AGENTS.md` installation keep the context small. `AGENTS.full.md`, `dist/plain`, and `dist/system-prompt` are fallback artifacts for tools without progressive loading. Both modes are generated from the same source files and stay synchronized through the builder.
+
+## 📌 Current API support
+
+The current documentation baseline is **HarmonyOS 7 / API 26.0.0 Release**. The knowledge pack covers the API 26 SemVer rules, ArkUI `ContainerReader` and global reuse, `ComposeTitleBarV2`, the API Change Assistant, the Node.js 24 toolchain, and Kits including Agent Framework, Data Augmentation, Enterprise Space, Desktop Extension, and Spatial Recon. API 24 Release remains available as the older-device compatibility baseline.
+
+API 26 project and upgrade guidance covers string-form `compileSdkVersion`, `targetSdkVersion`, and `compatibleSdkVersion`, API Change Assistant scans for behavior changes, and verification on both older devices and API 26 devices. The recorded Release toolchain is DevEco Studio 26.0.0.821, Hvigor 6.26.4, ohpm 26.0.0.630, and Node.js 24.14.1.
+
+Official entry points:
+
+- [HarmonyOS 26.0.0 release notes](https://developer.huawei.com/consumer/cn/doc/doccenter-release-notes/2600)
+- [Upgrade and adaptation guide for 26.0.0](https://developer.huawei.com/consumer/en/doc/harmonyos-releases/upgrade-adaptation)
+- [DevEco Studio 26.0.0 Release](https://developer.huawei.com/consumer/en/doc/harmonyos-releases/deveco-studio-new-features-2600)
+
 **Requirements:** `git` and `curl` (or just copy-paste for web tools). No other dependencies.
 **Freshness:** Tracks official release cadence. The current baseline covers HarmonyOS 7 / 26.0.0 Release (API 26; DevEco Studio 26.0.0.821), while retaining HarmonyOS 6.1.1 Release (API 24) compatibility guidance.
 

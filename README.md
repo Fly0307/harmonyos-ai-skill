@@ -113,6 +113,33 @@ Skill 是一段领域知识（Markdown 格式），AI 编程工具会在对话�
 
 </details>
 
+## 🧭 渐进式加载：先路由，再按需取知识
+
+这个仓库的核心机制是**渐进式加载**。它不会把所有 HarmonyOS 说明一次性塞进一个巨型 Markdown，再让每次会话重复加载全部内容；Agent 先读取一个很短的路由入口，再根据当前任务打开最小必要的模块。
+
+| 层级 | 内容 | 加载方式 |
+|---|---|---|
+| `harmonyos-development/SKILL.md` | 主题路由、官方来源、reference 选择规则 | 原生 Skill 触发时先加载 |
+| `references/` | ArkTS、ArkUI、工程、Kit、权限、网络、测试等领域模块 | 根据任务主题按需加载 |
+| `recipes/`、`examples/` | 编译排错、代码审查和可运行示例 | 只有需要工作流或代码时加载 |
+| `harmony-hdc-ui-automation/` | HDC、UiTest、hilog、截图和设备文件操作 | 设备任务单独触发 |
+| `dist/agents-md/AGENTS.md` | 面向 AGENTS.md 工具的轻量路由入口 | 每次会话先加载短文件，再解析同级目录 |
+| `dist/*` 单文件产物 | 将路由和全部 references 展平后的兼容版本 | 仅供无法读取多个文件的工具使用 |
+
+因此，原生 Skill 和轻量 `AGENTS.md` 安装方式能保持较小上下文；`AGENTS.full.md`、`dist/plain` 和 `dist/system-prompt` 是兼容不支持渐进加载的工具的后备产物。两种方式来自同一套源文件，运行构建器即可同步更新。
+
+## 📌 当前 API 支持
+
+当前文档基线是 **HarmonyOS 7 / API 26.0.0 Release**。知识库覆盖 API 26 的 SemVer 版本规则、ArkUI `ContainerReader` 和全局复用、`ComposeTitleBarV2`、API Change Assistant、Node.js 24 工具链，以及 Agent Framework、Data Augmentation、Enterprise Space、Desktop Extension、Spatial Recon 等 Kit。API 24 Release 仍作为旧设备兼容基线保留。
+
+API 26 工程配置和升级指导重点包括：`compileSdkVersion`、`targetSdkVersion`、`compatibleSdkVersion` 使用字符串版本号；升级后用 API Change Assistant 检查行为变化，并在旧设备与 API 26 设备上分别验证。当前记录的 Release 工具链为 DevEco Studio 26.0.0.821、Hvigor 6.26.4、ohpm 26.0.0.630、Node.js 24.14.1。
+
+官方入口：
+
+- [HarmonyOS 26.0.0 版本说明](https://developer.huawei.com/consumer/cn/doc/doccenter-release-notes/2600)
+- [升级到 26.0.0 适配指南](https://developer.huawei.com/consumer/en/doc/harmonyos-releases/upgrade-adaptation)
+- [DevEco Studio 26.0.0 Release](https://developer.huawei.com/consumer/en/doc/harmonyos-releases/deveco-studio-new-features-2600)
+
 **使用规则文件：** 只需 `git` 和 `curl`（或直接复制文件）。
 **使用双 Skill 安装器、HDC 自动化或参与开发：** 需要 Python 3.10+；
 推荐使用 `uv` 和项目现有的 `.venv`。真机能力还需要 DevEco Studio /
