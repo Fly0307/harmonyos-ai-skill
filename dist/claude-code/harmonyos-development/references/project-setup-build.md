@@ -46,7 +46,19 @@ MyApp/
 
 DevEco Studio 6.x requires **additional Hvigor infrastructure files**. Without them the IDE shows "工程结构及配置需要升级".
 
-**Current API 24 Release toolchain (HarmonyOS 6.1.1, 2026/05/26):**
+**Current API 26 Release toolchain (HarmonyOS 7, latest official baseline):**
+- DevEco Studio: **26.0.0 Release (26.0.0.821)**
+- HarmonyOS SDK: **26.0.0 Release**
+- HarmonyOS Emulator: **26.0.0.400**
+- Hvigor / hvigorw: **6.26.4**
+- ohpm: **26.0.0.630**
+- Node.js: **24.14.1**
+- `compileSdkVersion`: **`"26.0.0"`**
+- `targetSdkVersion`: **`"4.0.0(10)"` through `"26.0.0"`**
+
+Use the matching Command Line Tools in CI. API 26 changes the toolchain runtime from Node.js 18 to Node.js 24, so validate custom Hvigor, ohpm, and ohpm-repo plugins before upgrading a build farm.
+
+**API 24 compatibility toolchain (HarmonyOS 6.1.1, 2026/05/26):**
 - DevEco Studio: **6.1.1 Release (6.1.1.280)**
 - HarmonyOS SDK: **6.1.1 Release** (OpenHarmony SDK `Ohos_sdk_public 6.1.1.125`, API 24 Release)
 - Hvigor / hvigorw: **6.24.2**
@@ -101,6 +113,19 @@ API 24 DevEco Studio adds `strictCheckerOnly` under project-level `build-profile
     "strictMode": {
       "strictCheckerOnly": true
     }
+  }
+}
+```
+
+For a new API 26 project, keep the version fields as strings and maintain
+`compatibleSdkVersion <= targetSdkVersion <= compileSdkVersion`:
+
+```json5
+{
+  "app": {
+    "compileSdkVersion": "26.0.0",
+    "compatibleSdkVersion": "4.0.0(10)",
+    "targetSdkVersion": "26.0.0"
   }
 }
 ```

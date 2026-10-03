@@ -8,10 +8,10 @@
 
 ### 鸿蒙最大的 AI 编程知识库 · 让 11+ AI 工具真正会写 ArkTS
 
-*2 个职责分离的 Skill · 轻量路由 + 19 个按需 reference 模块 · 生产覆盖 API 24，跟踪 HarmonyOS 7 / API 26 Beta1*
+*2 个职责分离的 Skill · 轻量路由 + 19 个按需 reference 模块 · 生产覆盖 HarmonyOS 7 / API 26 Release，兼容 API 24*
 
 [![License](https://img.shields.io/badge/License-MIT-yellow)](./LICENSE)
-[![HarmonyOS](https://img.shields.io/badge/HarmonyOS-6.1%20%2F%206.1.1-black)](https://developer.huawei.com/consumer/cn/)
+[![HarmonyOS](https://img.shields.io/badge/HarmonyOS-7%20%2F%20API%2026-black)](https://developer.huawei.com/consumer/cn/)
 [![ArkTS](https://img.shields.io/badge/ArkTS-API%2022--26-blue)](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/arkts-get-started-V5)
 [![Kits](https://img.shields.io/badge/Kits-60+-orange)](#知识包内容)
 [![AI Tools](https://img.shields.io/badge/AI_Tools-11+-purple)](#支持的-ai-工具)
@@ -28,7 +28,7 @@
 **问 Copilot `@ObjectLink` 怎么用，它说"这 API 不存在"？**
 
 通用大模型从来没系统学过鸿蒙——它们的训练数据里几乎没有 ArkTS、Stage 模型、HarmonyOS Kit。
-所以我把华为官方文档、最佳实践、API 参考整理成**轻量路由 + 按需 references** 的知识库，从 ArkTS 严格语法到 60+ Kit、从 Native API 兼容到 API 26 预览适配都可精确检索；设备操作则由独立的 HDC 自动化 Skill 负责。
+所以我把华为官方文档、最佳实践、API 参考整理成**轻量路由 + 按需 references** 的知识库，从 ArkTS 严格语法到 60+ Kit、从 Native API 兼容到 API 26 Release 升级适配都可精确检索；设备操作则由独立的 HDC 自动化 Skill 负责。
 
 **两套原生 Skill，开发知识自动适配 11+ AI 工具。** 支持原生 Skill 的
 Agent 只按需加载相关模块；单文件规则工具使用构建生成的完整开发知识包。
@@ -117,7 +117,7 @@ Skill 是一段领域知识（Markdown 格式），AI 编程工具会在对话�
 **使用双 Skill 安装器、HDC 自动化或参与开发：** 需要 Python 3.10+；
 推荐使用 `uv` 和项目现有的 `.venv`。真机能力还需要 DevEco Studio /
 HarmonyOS SDK、`hdc` 以及已连接的设备或模拟器。
-**保鲜度：** 跟随官方版本节奏更新。生产基线覆盖到 HarmonyOS 6.1.1 Release (API 24)（2026/05/26），并跟踪 HarmonyOS 7 / 26.0.0 Beta1（API 26，2026/06/12）预览能力。
+**保鲜度：** 跟随官方版本节奏更新。当前基线覆盖到 HarmonyOS 7 / 26.0.0 Release（API 26；DevEco Studio 26.0.0.821），同时保留 HarmonyOS 6.1.1 Release（API 24）兼容指引。
 
 ## 知识包内容
 
@@ -146,6 +146,7 @@ HarmonyOS SDK、`hdc` 以及已连接的设备或模拟器。
 - **工程质量** — 安全编码规则 + 网络安全配置（HTTPS/证书固定）、代码混淆（ArkGuard）、arkxtest 测试框架（JsUnit + UiTest）、18 条常见陷阱（gotchas）
 - **三方库** — @ohos/axios（HTTP 客户端）、@ohos/pulltorefresh（下拉刷新）、@ohos/lottie（JSON 动画）、@ohos/imageknife（图片缓存）、dayjs（日期处理）
 - **API 23 / 24 新特性** — Navigation 路由栈绑定、Menu anchorPosition、UDMF/drag/crypto C API、relationalStore sendable 增强、AI super frame、Camera Kit "Follow the Person" 主体追踪、延迟预览、DevEco Studio API 24 支持
+- **API 26 Release** — HarmonyOS 7 生产基线、26.0.0 SemVer、ArkUI `ContainerReader`/全局复用/ComposeTitleBarV2、API Change Assistant、Node.js 24 工具链、升级兼容与旧设备验证
 - **最新兼容与调测** — Native `APIAVAILABLE`/弱引用、Linux CI、`jsLeakWatcher`、HWASan、`ContainerReader` 容器断点、全局组件复用
 - **多设备** — 响应式断点（xs/sm/md/lg/xl）、GridRow/GridCol、折叠屏适配
 - **打包与工具** — HAP/HSP/HAR、原子化服务、DevEco Studio 6.1+（hvigor）、OHPM、ArkCompiler

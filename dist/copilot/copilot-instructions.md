@@ -5,7 +5,7 @@ Use this skill for HarmonyOS NEXT native app work. Keep this file as the routing
 Default working assumptions:
 - Prefer Stage model, ArkTS, ArkUI, `UIAbility`, `module.json5`, `oh-package.json5`, HAP/HSP/HAR packaging, and DevEco Studio workflows.
 - Treat `references/platform-versions.md` as a local snapshot. If the user asks for latest/current SDK, toolchain, release, or API behavior, verify against official Huawei documentation before relying on the snapshot.
-- For production guidance, prefer the stable/release baseline documented in `references/platform-versions.md`; use preview/Beta material only when the user explicitly targets it.
+- For production guidance, prefer the API 26.0.0 Release baseline documented in `references/platform-versions.md`; use API 24 only as an explicit compatibility target and label older Beta material as historical.
 - For project-specific work, inspect the repository first: `build-profile.json5`, `hvigorfile.ts`, `oh-package.json5`, `module.json5`, `entry/src/main/ets`, and relevant `.ets` files.
 - For compiler errors, search the exact error text in `references/api-errors-gotchas.md` before proposing a fix.
 
@@ -180,7 +180,7 @@ Use this recipe when the user shares a DevEco Studio, Hvigor, ohpm, ArkTS, signi
    - target SDK
    - compatible SDK
    - Node.js version if relevant
-3. Check whether the answer must use API 24 production rules or API 26 preview rules.
+3. Check whether the answer must use API 26 Release rules or API 24 compatibility rules.
 4. Provide one minimal fix first.
 5. Provide a verification command or IDE action.
 
@@ -220,7 +220,7 @@ Use this recipe when the user asks for code review, refactoring, migration revie
 
 - Generic React or Android advice.
 - Rewriting the whole file when a targeted fix is enough.
-- API 26-only recommendations for API 24 production code.
+- API 26-only recommendations for API 24 compatibility code.
 
 <!-- Source: references/abilities-permissions.md -->
 # Abilities, Permissions, Background Tasks, and App Entry Points
@@ -716,7 +716,7 @@ Page reads `@StorageProp('targetPage')` and navigates accordingly.
 <!-- Source: references/ai-development-tools.md -->
 # HarmonyOS AI Development Tools
 
-Use this reference for DevEco Code, DevEco CLI, Agent Framework Kit, app Skills, Intents Kit, A2A, and HarmonyOS 7 AI-assisted development questions.
+Use this reference for DevEco Code, DevEco CLI, Agent Framework Kit, app Skills, Intents Kit, A2A, and HarmonyOS 7/API 26 AI-assisted development questions.
 
 ## Official Source Lookup
 
@@ -737,7 +737,7 @@ Treat this file as a capability-routing snapshot. Verify current product names, 
 | IDE-integrated AI assistant/plugin workflow | CodeGenie |
 | General-purpose third-party coding Agent | Its native workflow plus DevEco CLI/Hvigor/HDC and this skill |
 
-DevEco Code is a HarmonyOS-focused coding Agent, DevEco CLI is the command-line execution layer for automation and Agent invocation, and CodeGenie remains an IDE-integrated assistant surface. None changes the production SDK baseline: use API 24 Release by default and API 26 Beta1 only for preview/adaptation work.
+DevEco Code is a HarmonyOS-focused coding Agent, DevEco CLI is the command-line execution layer for automation and Agent invocation, and CodeGenie remains an IDE-integrated assistant surface. The current production SDK baseline is API 26.0.0 Release; retain API 24 Release only when the application explicitly supports older devices.
 
 ## Agent capability boundaries
 
@@ -761,7 +761,7 @@ Do not use these names interchangeably. First identify whether the user needs UI
 ## Answer rules
 
 1. State whether the request is about DevEco Studio, DevEco Code, DevEco CLI, or a third-party Agent.
-2. Keep API 24 production guidance separate from API 26 Beta preview guidance.
+2. Keep API 26.0.0 Release guidance separate from API 24 compatibility guidance.
 3. Name the exact Agent capability layer instead of using generic terms such as "HarmonyOS Agent API."
 4. Do not invent DevEco CLI command names. Use installed-tool help or official documentation for exact commands and flags.
 5. For device-dependent capabilities such as LTPO or spatial audio, require SDK and hardware support verification.
@@ -1175,12 +1175,12 @@ workerPort.onmessage = (e) => {
 - sys.symbol — icon glyph system
 - Multi-device / foldable screen adaptation (API 21)
 - Breakpoint detection
-- Container breakpoints with `ContainerReader` (API 26 preview)
+- Container breakpoints with `ContainerReader` (API 26 Release)
 - Foldable screen — listen for fold/unfold events
 - Responsive layout switching (if/else, not .visibility)
 - `GridRow`/`GridCol` does not support `LazyForEach`
 - Share breakpoint via `@Provide`/`@Consume`
-- Global `@Reusable` / `@ReusableV2` pools (API 26 preview)
+- Global `@Reusable` / `@ReusableV2` pools (API 26 Release)
 - UIDesignKit — icon processing & HdsNavigation
 - `hdsDrawable` — icon adaptive processing
 - `HdsNavigation` — system-style navigation component
@@ -1357,7 +1357,7 @@ struct MyListItem {
 ```
 Rules: only works within same parent; don't nest `@Reusable` inside `@Reusable`; combine with `LazyForEach`.
 
-**Global reuse pools (API 26 preview):** `@ComponentV2({ reusePool, poolAccepts })` can let compatible child trees share `@ReusableV2` components across different parents. Use this only when the project explicitly targets API 26 preview. Release heavy resources in `aboutToRecycle()`, reset transient state before reused content is shown, keep reuse identifiers stable, and profile before accepting the added lifecycle complexity.
+**Global reuse pools (API 26 Release):** `@ComponentV2({ reusePool, poolAccepts })` can let compatible child trees share `@ReusableV2` components across different parents. Release heavy resources in `aboutToRecycle()`, reset transient state before reused content is shown, keep reuse identifiers stable, and profile before accepting the added lifecycle complexity.
 
 Official guide: https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/arkts-global-reuse-pool
 
@@ -1713,9 +1713,9 @@ export function getBreakpoint(): string {
 }
 ```
 
-### Container breakpoints with `ContainerReader` (API 26 preview)
+### Container breakpoints with `ContainerReader` (API 26 Release)
 
-Use `ContainerReader` when a reusable component must adapt to its own container rather than the application window. Context7 confirms this capability starts at API 26.0.0, so keep it out of API 24 production examples unless the project explicitly targets the preview SDK.
+Use `ContainerReader` when a reusable component must adapt to its own container rather than the application window. This capability starts at API 26.0.0, so keep it out of API 24 compatibility examples unless the project gates it with an availability check or supplies an older-device fallback.
 
 The official guide binds container size and breakpoint state to
 `ContainerReader`, then derives layout properties such as `Grid` columns from
@@ -1724,7 +1724,7 @@ update when a split view, nested pane, or reusable card changes size.
 
 Treat the guide's imports, bindings, and `breakpointConfig` signatures as
 API-26-SDK-specific. Read the current guide and verify them against the
-project's installed preview SDK before generating compile-ready code.
+project's installed Release SDK before generating compile-ready code.
 
 Official guide: https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/arkts-layout-development-container-reader
 
@@ -4400,14 +4400,14 @@ class ImportantClass {
 
 ## Overview
 
-Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 developer preview (API 26 Beta1) / NEXT native app development — the Huawei mobile OS family that runs independently of Android (AOSP-free since HarmonyOS NEXT, released 2024). Primary language is **ArkTS** (a strict, statically-checked superset of TypeScript) and the primary UI framework is **ArkUI** (declarative, state-driven). Use API 24 Release as the default production baseline; use API 26 Beta1 only for preview, adaptation, and early compatibility work.
+Covers HarmonyOS 6.1 (API 23, stable) / 6.1.1 (API 24, Release) / HarmonyOS 7 (API 26.0.0, Release) / NEXT native app development — the Huawei mobile OS family that runs independently of Android (AOSP-free since HarmonyOS NEXT, released 2024). Primary language is **ArkTS** (a strict, statically-checked superset of TypeScript) and the primary UI framework is **ArkUI** (declarative, state-driven). Use API 26.0.0 Release for new projects and upgrades; keep API 24 Release as a compatibility baseline when the product still supports older devices.
 
 ## Contents
 - Platform snapshot
 - What's new in API 23 (HarmonyOS 6.1)
 - What's new in API 24 (HarmonyOS 6.1.1 Release)
-- HarmonyOS 7 / API 26 Beta1 preview (2026/06/12)
-- API 26 behavior-scope notes and July documentation status
+- HarmonyOS 7 / API 26.0.0 Release (latest official version)
+- API 26 release behavior-scope and upgrade notes
 
 Load this file only when the user request matches these topics. For newer SDK claims, verify against official Huawei documentation when current accuracy matters.
 
@@ -4425,15 +4425,15 @@ Use the local notes below as a snapshot. For latest/current SDK behavior, exact 
 
 | Item | Value |
 |---|---|
-| OS | **HarmonyOS 6.1** (stable, released 2026/04/20, API 23). **HarmonyOS 6.1.1** (Release, released 2026/05/26, API 24). **HarmonyOS 7 / 26.0.0 Beta1** (developer preview, released 2026/06/12, API 26). Pure HarmonyOS, AOSP-free |
+| OS | **HarmonyOS 6.1** (stable, released 2026/04/20, API 23). **HarmonyOS 6.1.1** (Release, released 2026/05/26, API 24). **HarmonyOS 7 / 26.0.0 Release** (latest official version, API 26). Pure HarmonyOS, AOSP-free |
 | Language | **ArkTS** (primary), **Cangjie** (beta), C/C++ via NAPI |
 | UI framework | **ArkUI** declarative (ArkUI-X for cross-platform) |
 | Compiler | **ArkCompiler** — AOT to native machine code; LiteActor concurrency |
 | Package manager | **ohpm** — `oh-package.json5`; registry at DevEco Service (OHPM Central) |
-| IDE | **DevEco Studio 6.1.1 Release** (6.1.1.280; API 24 production). **DevEco Studio 26.0.0 Beta1** (26.0.0.461; API 26 preview) |
+| IDE | **DevEco Studio 26.0.0 Release** (26.0.0.821; API 26). DevEco Studio 6.1.1 Release (6.1.1.280; API 24 compatibility) |
 | App model | **Stage model** (FA model is legacy — don't use in new apps) |
 | Packaging | HAP (entry/feature), HSP (shared package), HAR (static archive), atomic .app |
-| Recommended API | **Use API 24 Release for production. Use API 26 Beta1 only for HarmonyOS 7 preview/adaptation.** |
+| Recommended API | **Use API 26.0.0 Release for new work and upgrades. Keep API 24 Release as `compatibleSdkVersion` when older-device support is required.** |
 | Sample catalog | https://developer.huawei.com/consumer/cn/samples/ |
 
 **Release timeline (recent):**
@@ -4444,6 +4444,7 @@ Use the local notes below as a snapshot. For latest/current SDK behavior, exact 
 - HarmonyOS 6.1.1(24) Beta 1 — 2026/04/30 (developer beta)
 - HarmonyOS 6.1.1(24) Release — 2026/05/26 (API 24 Release; DevEco Studio 6.1.1.280)
 - HarmonyOS 7 / 26.0.0 Beta1 — 2026/06/12 (API 26 developer preview; DevEco Studio 26.0.0.461)
+- HarmonyOS 7 / 26.0.0 Release — 2026/08 (API 26 official release; DevEco Studio 26.0.0.821)
 
 
 ### What's new in API 23 (HarmonyOS 6.1)
@@ -4496,15 +4497,17 @@ Use the local notes below as a snapshot. For latest/current SDK behavior, exact 
 - **DevEco Studio** — API 24 projects, Hot Reload for C++ and resource edits, expanded AppFreeze parsing, ComMemory UI memory analysis, `strictCheckerOnly` for faster strict syntax checks.
 
 
-### HarmonyOS 7 / API 26 Beta1 preview (2026/06/12)
+### HarmonyOS 7 / API 26.0.0 Release
 
-**Status (source snapshot checked 2026/07/25):** developer Beta, not the default production baseline. The reviewed upstream sources did not identify API 26 Beta2, RC, or Release. Mention API 26 features only when the user asks about HarmonyOS 7, API 26, HDC 2026, preview adaptation, or Beta1 capabilities. For production code, prefer API 24 Release unless the project explicitly targets API 26 preview, and verify the latest status before answering current-version questions.
+**Status (official release notes checked 2026/10/03):** 26.0.0 is the latest HarmonyOS version and the corresponding API for HarmonyOS 7. Use it as the default baseline for new projects and upgrades. The official release notes separate Release, Beta2, and Beta1 changes; do not describe 26.0.0 as preview material. Keep API 24 as a compatibility target when the product still supports older devices.
 
-**Developer kit baseline:** HarmonyOS SDK **26.0.0 Beta1** (OpenHarmony SDK `Ohos_sdk_public 26.0.0.23`, API Version 26.0.0 Beta1) and DevEco Studio **26.0.0 Beta1 (26.0.0.461)**. Toolchain: HarmonyOS Emulator **26.0.0.200**, Hvigor/hvigorw **6.26.1**, ohpm **26.0.0.410**, Node.js **24.14.1**, hstack **6.0.0**, `compileSdkVersion: "26.0.0"`, `targetSdkVersion: "4.0.0(10)~26.0.0"`.
+**Release toolchain:** DevEco Studio **26.0.0 Release (26.0.0.821)**, HarmonyOS **26.0.0 Release SDK**, HarmonyOS Emulator **26.0.0.400**, Hvigor/hvigorw **6.26.4**, ohpm **26.0.0.630**, Node.js **24.14.1**, and hstack **6.1.0**. Use `compileSdkVersion: "26.0.0"`; `targetSdkVersion` must be between `compatibleSdkVersion` and `26.0.0`, with the earliest compatible version listed by Huawei as `4.0.0(10)`.
+
+Official release entry points: [26.0.0 version overview](https://developer.huawei.com/consumer/cn/doc/doccenter-release-notes/2600), [upgrade and adaptation guide](https://developer.huawei.com/consumer/en/doc/harmonyos-releases/upgrade-adaptation), and [DevEco Studio 26.0.0 release notes](https://developer.huawei.com/consumer/en/doc/harmonyos-releases/deveco-studio-new-features-2600).
 
 **Version-number rule:** Starting with API **26.0.0**, HarmonyOS developer kit API versions use SemVer (`X.Y.Z`) instead of the legacy `X.Y.Z(N)` format. `X` means a major version with substantial capabilities or adaptation-impacting changes, `Y` means a minor version with new capabilities, and `Z` means compatible fixes/small improvements.
 
-**High-value API 26 Beta1 changes:**
+**High-value API 26 changes carried into the Release SDK:**
 - **Ability Kit** — AgentCard support; ArkTS script-based app Skill development; package-name + clone-index app name lookup; ArkTS APIs for script management; C APIs for `ModularObjectExtensionAbility`.
 - **Accessibility Kit** — system care mode integration for elder-friendly app experiences.
 - **Accessory Kit** — new Kit for accessory wake-up, system service linkage, on-demand scheduling, and secure trust management.
@@ -4542,6 +4545,13 @@ Use the local notes below as a snapshot. For latest/current SDK behavior, exact 
 - **Spatial Recon Kit** — 3DGS gaussian editing and spatial photo generation from a single photo.
 - **Scan Kit** — query support for default/custom scan UI on the current device.
 
+**Release-only additions and upgrade signals:**
+- **ArkUI** — `ComposeTitleBarV2` and related title-area APIs are available from 26.0.0; immersive material and container/reuse capabilities should be checked against the installed Release SDK before use.
+- **Accessibility Kit** — senior-mode status can be queried and observed with `isSeniorModeEnabled`, `onSeniorModeStateChange`, and `offSeniorModeStateChange`.
+- **Media Kit** — `videoProcessing` adds `createVideoProcessor`, status callbacks, and AI HDR status; `AVDownloaderManager.setRequestTimeout` uses the `timeout` parameter name.
+- **Notification Kit** — 26.0.0 adds explicit error codes for notification publishing and distributed-state queries; handle `BusinessError` codes rather than assuming every publish succeeds.
+- **DevEco Studio** — the Release toolchain adds API-version distribution when creating projects, external USB/virtual cameras and network-disconnection simulation in the emulator, emulator CLI UI actions, coredump/HWASan diagnostics, incremental coverage, `deduplicateSo`, merged HAR packaging, multi-target dependencies, and the `arktsdoc` generator.
+
 **API 26 behavior and UX changes to watch during adaptation:**
 - **Ability Kit** — public package-change common events (`COMMON_EVENT_PACKAGE_ADDED`, `REMOVED`, `CHANGED`, `CACHE_CLEARED`) add controls for In-House apps when `targetSdkVersion >= 26.0.0`; In-House apps must configure `allowListenBundleChangedEvent` in `app.json5` for third-party listeners.
 - **ArkTS / JSVM** — Chromium/V8 core upgrades 132 → 144; async function type detection is fixed; Wasm jitless default behavior changes; `fastConvertToJSObject` now preserves sibling text nodes when parsing XML.
@@ -4555,16 +4565,18 @@ Use the local notes below as a snapshot. For latest/current SDK behavior, exact 
 
 Do not infer the scope of an individual behavior from the summary alone. Check the page-specific compatibility note for the target API before changing production code.
 
-**DevEco Studio 26.0.0 Beta1 additions:**
+**DevEco Studio 26.0.0 Release additions:**
 - AI coding: custom Agent token usage display, conversation rollback, built-in Inline Chat commands such as File Comments and Parameter Validation, `UI Verification` tool, and custom Commands.
 - Editing/debugging: API 26.0.0 projects, Load/Unload Modules, ArkUI state-variable relation viewer, Code Scanner resource-leak checks, custom Clang-Tidy, ACL permission requests, 8-breakpoint preview, Car multi-screen emulator, scenario simulation, remote emulator control, Native debug startup acceleration, device projection, SQL-highlight database debugging, dump-file stack parsing, HiLog tag filtering, AppAnalyzer report diagnosis, and diagnostics for OOM/app-freeze/resource leaks.
 - Build/release: `apiCompatibilityCheck`, `tsImportSoCheck`, module `nativeLib.enableSoDirCollection`, `syncNative`, Hvigor `getAllDependencyInfo`, AppGallery package re-signing, Linux emulator support, and ohpmrc `auto_skip_install`, `metadata_cache_effective`, `metadata_cache`, plus exact-version metadata queries.
-- Compatibility changes: DevEco Studio and Command Line Tools upgrade Node.js from 18 to **24**; custom Hvigor/ohpm/ohpm-repo plugins need Node.js 24 adaptation. `ohpm-repo 5.5.1` no longer depends on `node-fetch`; plugins that relied on that bundled dependency must replace it or install `node-fetch@2.7.0` themselves.
+- Compatibility changes: DevEco Studio and Command Line Tools use Node.js **24.14.1**; custom Hvigor/ohpm/ohpm-repo plugins must be tested on Node.js 24. `ohpm-repo 5.5.1` no longer depends on `node-fetch`; plugins that relied on that bundled dependency must replace it or install `node-fetch@2.7.0` themselves.
 
-**DevEco Testing 26.0.0 Beta1:**
+**DevEco Testing 26.0.0:**
 - Stability testing can target specified entry points to trigger stability issues and expands memory-leak detection coverage.
 - UX testing supports multi-device layout comparison across straight-screen and foldable devices.
 - Test-service matrix includes local app listing precheck, performance baseline/monitoring, stability baseline, memory-leak testing, UX baseline and multi-device layout comparison, security baseline, power baseline, functional-experience baseline, exploratory testing, regression testing, device projection, UIViewer, app graph management, performance report auto-analysis, and report comparison.
+
+**Upgrade workflow:** If `targetSdkVersion` is omitted, the upgraded DevEco Studio may align it with the matching SDK, and the default `compileSdkVersion` also moves to that SDK. Set `compatibleSdkVersion` deliberately when older devices must remain supported. Use DevEco Studio's **Tools > API Change Assistant** to scan ArkTS/C API behavior changes, then build with the matching Command Line Tools and test on both old and API 26 devices before release.
 
 <!-- Source: references/project-setup-build.md -->
 # Project Setup, Build, and Package Layout
@@ -4615,7 +4627,19 @@ MyApp/
 
 DevEco Studio 6.x requires **additional Hvigor infrastructure files**. Without them the IDE shows "工程结构及配置需要升级".
 
-**Current API 24 Release toolchain (HarmonyOS 6.1.1, 2026/05/26):**
+**Current API 26 Release toolchain (HarmonyOS 7, latest official baseline):**
+- DevEco Studio: **26.0.0 Release (26.0.0.821)**
+- HarmonyOS SDK: **26.0.0 Release**
+- HarmonyOS Emulator: **26.0.0.400**
+- Hvigor / hvigorw: **6.26.4**
+- ohpm: **26.0.0.630**
+- Node.js: **24.14.1**
+- `compileSdkVersion`: **`"26.0.0"`**
+- `targetSdkVersion`: **`"4.0.0(10)"` through `"26.0.0"`**
+
+Use the matching Command Line Tools in CI. API 26 changes the toolchain runtime from Node.js 18 to Node.js 24, so validate custom Hvigor, ohpm, and ohpm-repo plugins before upgrading a build farm.
+
+**API 24 compatibility toolchain (HarmonyOS 6.1.1, 2026/05/26):**
 - DevEco Studio: **6.1.1 Release (6.1.1.280)**
 - HarmonyOS SDK: **6.1.1 Release** (OpenHarmony SDK `Ohos_sdk_public 6.1.1.125`, API 24 Release)
 - Hvigor / hvigorw: **6.24.2**
@@ -4670,6 +4694,19 @@ API 24 DevEco Studio adds `strictCheckerOnly` under project-level `build-profile
     "strictMode": {
       "strictCheckerOnly": true
     }
+  }
+}
+```
+
+For a new API 26 project, keep the version fields as strings and maintain
+`compatibleSdkVersion <= targetSdkVersion <= compileSdkVersion`:
+
+```json5
+{
+  "app": {
+    "compileSdkVersion": "26.0.0",
+    "compatibleSdkVersion": "4.0.0(10)",
+    "targetSdkVersion": "26.0.0"
   }
 }
 ```

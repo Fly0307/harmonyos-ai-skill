@@ -8,10 +8,10 @@
 
 ### The largest HarmonyOS knowledge pack for AI coding — make 11+ AI tools actually write ArkTS
 
-*2 responsibility-separated skills · lightweight routing + 19 on-demand reference modules · API 24 production baseline, tracking HarmonyOS 7 / API 26 Beta1*
+*2 responsibility-separated skills · lightweight routing + 19 on-demand reference modules · HarmonyOS 7 / API 26 Release baseline, with API 24 compatibility*
 
 [![License](https://img.shields.io/badge/License-MIT-yellow)](./LICENSE)
-[![HarmonyOS](https://img.shields.io/badge/HarmonyOS-6.1%20%2F%206.1.1-black)](https://developer.huawei.com/consumer/cn/)
+[![HarmonyOS](https://img.shields.io/badge/HarmonyOS-7%20%2F%20API%2026-black)](https://developer.huawei.com/consumer/cn/)
 [![ArkTS](https://img.shields.io/badge/ArkTS-API%2022--26-blue)](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/arkts-get-started-V5)
 [![Kits](https://img.shields.io/badge/Kits-60+-orange)](#whats-inside-the-knowledge)
 [![AI Tools](https://img.shields.io/badge/AI_Tools-11+-purple)](#supported-ai-tools)
@@ -28,7 +28,7 @@
 **Ask Copilot about `@ObjectLink` — it says "that API doesn't exist."**
 
 General-purpose LLMs have never systematically learned HarmonyOS — their training data barely contains ArkTS, the Stage model, or HarmonyOS Kits.
-So I organized Huawei's official documentation, best practices, and API references into a **lightweight router plus on-demand references**. Agents can retrieve ArkTS, 60+ Kits, Native API compatibility, and API 26 preview guidance precisely, while a separate HDC automation skill owns device operations.
+So I organized Huawei's official documentation, best practices, and API references into a **lightweight router plus on-demand references**. Agents can retrieve ArkTS, 60+ Kits, Native API compatibility, and API 26 Release upgrade guidance precisely, while a separate HDC automation skill owns device operations.
 
 **Two source skill directories produce drop-in configs for 11+ AI tools.** Native skill runtimes load only the relevant modules; single-file rule systems receive a generated complete knowledge pack.
 
@@ -114,7 +114,7 @@ A skill is a chunk of domain knowledge (in Markdown) that an AI coding tool load
 </details>
 
 **Requirements:** `git` and `curl` (or just copy-paste for web tools). No other dependencies.
-**Freshness:** Tracks official release cadence. Production baseline covers HarmonyOS 6.1.1 Release (API 24), released 2026-05-26, and tracks HarmonyOS 7 / 26.0.0 Beta1 (API 26), released 2026-06-12, for preview adaptation.
+**Freshness:** Tracks official release cadence. The current baseline covers HarmonyOS 7 / 26.0.0 Release (API 26; DevEco Studio 26.0.0.821), while retaining HarmonyOS 6.1.1 Release (API 24) compatibility guidance.
 
 ## What's inside the knowledge
 
@@ -143,6 +143,7 @@ A skill is a chunk of domain knowledge (in Markdown) that an AI coding tool load
 - **Engineering quality** — security coding rules + network security config (HTTPS/cert pinning), code obfuscation (ArkGuard), arkxtest testing (JsUnit + UiTest), 18 common gotchas
 - **Third-party libraries** — @ohos/axios (HTTP client), @ohos/pulltorefresh, @ohos/lottie (JSON animation), @ohos/imageknife (image caching), dayjs (date utils)
 - **API 23 / 24 new features** — Navigation routing stack binding, Menu anchorPosition, UDMF/drag/crypto C APIs, relationalStore sendable enhancement, AI super frame, Camera Kit "Follow the Person" subject tracking, delayed preview, DevEco Studio API 24 support
+- **API 26 Release** — HarmonyOS 7 production baseline, 26.0.0 SemVer, ArkUI `ContainerReader`/global reuse/ComposeTitleBarV2, API Change Assistant, Node.js 24 toolchain, upgrade compatibility, and old-device verification
 - **Current compatibility & diagnostics** — Native `APIAVAILABLE`/weak references, Linux CI, `jsLeakWatcher`, HWASan, `ContainerReader` breakpoints, and global component reuse
 - **Multi-device** — responsive breakpoints (xs/sm/md/lg/xl), GridRow/GridCol, foldable support
 - **Packaging & tooling** — HAP/HSP/HAR, atomic services, DevEco Studio 6.1+ (hvigor), OHPM, ArkCompiler

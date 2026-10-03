@@ -10,7 +10,7 @@ Use this skill for HarmonyOS NEXT native app work. Keep this file as the routing
 Default working assumptions:
 - Prefer Stage model, ArkTS, ArkUI, `UIAbility`, `module.json5`, `oh-package.json5`, HAP/HSP/HAR packaging, and DevEco Studio workflows.
 - Treat `references/platform-versions.md` as a local snapshot. If the user asks for latest/current SDK, toolchain, release, or API behavior, verify against official Huawei documentation before relying on the snapshot.
-- For production guidance, prefer the stable/release baseline documented in `references/platform-versions.md`; use preview/Beta material only when the user explicitly targets it.
+- For production guidance, prefer the API 26.0.0 Release baseline documented in `references/platform-versions.md`; use API 24 only as an explicit compatibility target and label older Beta material as historical.
 - For project-specific work, inspect the repository first: `build-profile.json5`, `hvigorfile.ts`, `oh-package.json5`, `module.json5`, `entry/src/main/ets`, and relevant `.ets` files.
 - For compiler errors, search the exact error text in `references/api-errors-gotchas.md` before proposing a fix.
 
